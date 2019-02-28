@@ -19,5 +19,7 @@ public class Test
 		WiniumDriver driver = new WiniumDriver(new URL("http://localhost:9999"), options);
 //		driver.findElement(By.name("Start")).click();
 		driver.findElement(By.name("Text Editor")).sendKeys("sab golmal hai bhai sab golmal hai");
+		
+		System.out.println("complete");
 	}
 }
