@@ -51,6 +51,7 @@ public class Reporter {
 		System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
 		System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
 		System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
+		System.setProperty("webdriver.winium.driver.desktop", "./src/main/resources/Winium.Desktop.Driver.exe");
 
 	}
 
