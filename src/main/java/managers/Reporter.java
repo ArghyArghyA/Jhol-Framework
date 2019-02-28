@@ -24,15 +24,16 @@ import dataProviders.Configurations.OutPutFields;
 
 import org.apache.commons.io.FileUtils;
 
-public class Reporter {
+public final class Reporter {
 
 	private static ExtentReports report;
 	private static ExtentTest test;
 	private static String testName;
 	private final String timeStamp;
 	private static int counter;
+	private static Reporter reporter = new Reporter();
 
-	public Reporter() {
+	private Reporter() {
 		super();
 		this.timeStamp = new Timestamp(new Date().getTime()).toString().replaceAll(":", "-");
 		Reporter.report = new ExtentReports();
@@ -51,7 +52,13 @@ public class Reporter {
 		System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
 		System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
 		System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
+		System.setProperty("webdriver.winium.driver.desktop", "./src/main/resources/Winium.Desktop.Driver.exe");
 
+	}
+	
+	public static Reporter getInstance()
+	{
+		return reporter;
 	}
 
 	public void reportTest(HashMap<String, String> dictionary) {

@@ -11,7 +11,6 @@ public class Search extends DriverUtil {
 
 	public Search(Reporter reportManager) {
 		super(reportManager);
-		// TODO Auto-generated constructor stub
 	}
 
 	public boolean search() {

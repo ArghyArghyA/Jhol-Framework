@@ -13,14 +13,13 @@ public class Windows extends DriverUtil
 		super(reportManager);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public boolean notepad()
 	{
-		startDesktopAutomation();
-		click(By.name("Text Edit"));
-		stopDesktopAutomation();
-		return true;
-		
+		return startDesktopAutomation() && switchToWindow("Notepad", "ClassName")
+				&& wSendkeys(By.name("Text Editor"), "test") && wClick(By.name("Close"))
+				&& wClick(By.name("Don't Save")) && stopDesktopAutomation();
 	}
+
 
 }

@@ -21,7 +21,7 @@ import managers.Reporter;
 import scripts.*;
 
 public class Jhol {
-	static Reporter report = new Reporter();
+	static Reporter report = Reporter.getInstance();
 
 	/*
 	 * demo on transaction implementation below DO NOT Uncomment/Do NOT Change
