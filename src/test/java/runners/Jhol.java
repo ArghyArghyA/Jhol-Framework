@@ -62,7 +62,7 @@ public class Jhol {
 		report.endTest();
 	}
 
-	public static void main(String[] args) throws InvalidFormatException, IOException {
+	public static void main(String[] args) throws InvalidFormatException, IOException, InterruptedException {
 		JFrame frame = new JFrame("Progress");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
@@ -129,7 +129,7 @@ public class Jhol {
 			counter++;
 			progressBar.setBorder(BorderFactory.createTitledBorder("Processed " + counter + "/" + numberOfTestcases));
 			progressBar.setValue(counter);
+			Thread.sleep(5000);
 		}
 	}
-
 }

@@ -125,10 +125,10 @@ public final class Reporter {
 		report.flush();
 
 		try {
-			DriverUtil.driver.quit();
-			DriverUtil.driver = null;
 			String command = "taskkill /F /IM Winium.Desktop.Driver.exe";
 			Runtime.getRuntime().exec(command);
+			DriverUtil.driver.quit();
+			DriverUtil.driver = null;
 			if (DriverUtil.dictionary.get("browser").equalsIgnoreCase("Chrome"))
 				command = "taskkill /F /IM chrome.exe /IM chromedriver.exe";
 			else if (DriverUtil.dictionary.get("browser").equalsIgnoreCase("Firefox"))
