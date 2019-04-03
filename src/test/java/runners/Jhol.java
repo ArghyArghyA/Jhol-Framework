@@ -32,15 +32,12 @@ public class Jhol {
 //		Commons c = new Commons(report);
 //		NBNH n = new NBNH(report);
 //		try {
-//			x = c.login() && c.SelectEnvironment() && c.goToPLM() && n.goToECMS() && n.continueQuote()
-//					&& n.fillHouseholdInformation() && c.open360() && c.complete360() && n.fillDwelling()
-//					&& n.fillProtectionClass() && n.Rate();
+//			x = c.login() && c.SelectEnvironment() && n.fillClientDetails() && n.fillHouseholdInformation()
+//						&& n.Rate();
 //			if (x) {
-//				x = n.addLoss() && n.fillBasicCoverage() && n.fillOptionalCoverage() && n.fillDetailedCoverage()
-//						&& n.addCEA() && n.proceedToBuy() && n.fillPaperlessOption()
-//						&& n.fillAdditionalHouseholdInformation() && n.fillAdditionalPolicyInformation()
-//						&& n.addMortgagee() && n.Verify() && n.setUpAccount() && n.processPayment();
-//				x = x && n.submit() ? c.completeAgentDecision() : n.saveAndExit();
+//				x = n.addLoss() && n.fillCoverage() && n.fillAdditionalInformation()
+//						&& n.addMortgagee() && n.setUpAccount() && n.processPayment();
+//				x = x && (n.submit() ? c.completeAgentDecision() : n.saveAndExit());
 //			}
 //		} catch (Exception e) {
 //		}

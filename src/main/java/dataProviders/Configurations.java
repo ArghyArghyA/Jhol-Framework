@@ -16,14 +16,34 @@ public class Configurations {
 	public static final int ShortTimeOut = 5;// in seconds
 	public static final int LongTimeOut = 60;// in seconds
 	
-	/**set all the required options in the static block at the bottom of the <code>Configurations</code> class*/
+	/**set all the required options in the static block*/
 	public static final InternetExplorerOptions ieOptions = new InternetExplorerOptions();
-	/**set all the required options in the static block at the bottom of the <code>Configurations</code> class*/
+	static
+	{
+		ieOptions.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
+//		ieOptions.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL, Configurations.URL);
+		ieOptions.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+		ieOptions.setCapability(InternetExplorerDriver.UNEXPECTED_ALERT_BEHAVIOR, "accept");
+	}
+	/**set all the required options in the static block*/
 	public static final ChromeOptions chromeOptions = new ChromeOptions();
-	/**set all the required options in the static block at the bottom of the <code>Configurations</code> class*/
+	static
+	{
+		chromeOptions.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.ACCEPT);
+//		chromeOptions.setCapability(, value);
+	}
+	/**set all the required options in the static block*/
 	public static final FirefoxOptions firefoxOptions = new FirefoxOptions();
-	/**set all the required options in the static block at the bottom of the <code>Configurations</code> class*/
+	static
+	{
+		firefoxOptions.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.ACCEPT);
+	}
+	/**set all the required options in the static block*/
 	public static final SafariOptions safariOptions = new SafariOptions();
+	static
+	{
+//		safariOptions.setAutomaticInspection(true);
+	}
 
 	/**
 	 * Title for the Report
@@ -35,7 +55,7 @@ public class Configurations {
 	public static final String DataSheetPath = "./src/test/resources/Data/DataSheet.xlsx";
 	
 	/**
-	 * String class name including package name as <code>package.class</code> contaning all the End-to-End scripts
+	 * String class name including package name as <code>package.class</code> containing all the End-to-End scripts script methods must match to that of TestCaseDescription of the test case
 	 */
 	public static final String ClassContainingTransactionScripts = "runners.Jhol";
 
@@ -70,16 +90,4 @@ public class Configurations {
 
 	}
 	
-	
-	static
-	{
-		ieOptions.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
-//		ieOptions.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL, Configurations.URL);
-		ieOptions.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-		ieOptions.setCapability(InternetExplorerDriver.UNEXPECTED_ALERT_BEHAVIOR, "accept");
-		chromeOptions.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.ACCEPT);
-//		chromeOptions.setCapability(, value);
-		firefoxOptions.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.ACCEPT);
-	}
-
 }
