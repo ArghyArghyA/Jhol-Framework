@@ -700,7 +700,8 @@ public class DriverUtil {
 	}
 
 	/**
-	 * Wrapper for logging statements. Logs both in console and Reporter
+	 * Wrapper for logging statements. Logs both in console and Reporter. However
+	 * depends on the Configurations.minimumLogLevel
 	 * 
 	 * @param status   <code>Status</code>LogStatus can be PASS, FAIL, WARNING etc
 	 * @param stepName <code>String</code>short description of the step
@@ -710,7 +711,8 @@ public class DriverUtil {
 	}
 
 	/**
-	 * Wrapper for logging statements. Logs both in console and Reporter
+	 * Wrapper for logging statements. Logs both in console and Reporter However
+	 * depends on the <code>Configurations.minimumLogLevel<code>
 	 * 
 	 * @param status   <code>Status</code>LogStatus can be PASS, FAIL, WARNING etc
 	 * @param stepName <code>String</code>short description of the step
@@ -718,6 +720,38 @@ public class DriverUtil {
 	 *                 step
 	 */
 	protected void log(Status status, String stepName, Throwable e) {
+		switch (Configurations.minimumLogLevel) {
+		case ERROR:
+			if (!(status == Status.ERROR || status == Status.FAIL || status == Status.FATAL))
+				return;
+			break;
+		case FAIL:
+			if (!(status == Status.FAIL || status == Status.FATAL))
+				return;
+			break;
+		case FATAL:
+			if (!(status == Status.FATAL))
+				return;
+			break;
+		case INFO:
+			if (status == Status.DEBUG)
+				return;
+			break;
+		case PASS:
+			if (status == Status.DEBUG || status == Status.INFO)
+				return;
+			break;
+		case SKIP:
+			if (status == Status.DEBUG || status == Status.INFO || status == Status.PASS)
+				return;
+			break;
+		case WARNING:
+			if (status == Status.DEBUG || status == Status.INFO || status == Status.PASS || status == Status.SKIP)
+				return;
+			break;
+		default:
+			break;
+		}
 		if (e != null) {
 			e.printStackTrace();
 			reporter.reportEvent(status, stepName, ExceptionUtils.getFullStackTrace(e));

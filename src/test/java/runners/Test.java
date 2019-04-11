@@ -12,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.winium.DesktopOptions;
 import org.openqa.selenium.winium.WiniumDriver;
 
+import com.aventstack.extentreports.Status;
+
 import dataProviders.Configurations;
 
 
@@ -29,15 +31,19 @@ public class Test
 //		
 //		System.out.println("complete");
 		
-		System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		driver.get("https://www.google.com/");
-		driver.findElement(By.cssSelector("input.gsfi")).sendKeys("jhol");
-		driver.findElement(By.cssSelector("input.gsfi")).submit();
-		driver.findElement(By.xpath("//h3[text()='Jhol (film) - Wikipedia']")).click();
-		driver.quit();
+//		System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
+//		WebDriver driver = new ChromeDriver();
+//		driver.get("https://www.google.com/");
+//		driver.findElement(By.cssSelector("input.gsfi")).sendKeys("jhol");
+//		driver.findElement(By.cssSelector("input.gsfi")).submit();
+//		driver.findElement(By.xpath("//h3[text()='Jhol (film) - Wikipedia']")).click();
+//		driver.quit();
 		
 //		System.out.println(!true);
 		//test
+		for (Status status: Status.values())
+		{
+			System.out.println(status + " : "+status.ordinal());
+		}
 	}
 }

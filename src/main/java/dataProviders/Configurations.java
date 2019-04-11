@@ -7,6 +7,8 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.safari.SafariOptions;
 
+import com.aventstack.extentreports.Status;
+
 public class Configurations {
 
 	public static final String URL = "https://www.google.com/";
@@ -31,6 +33,21 @@ public class Configurations {
 	 * 
 	 */
 	public static final boolean enableScrollToView = true;
+
+	/**
+	 * Mention minimum logLevel threshold for the report and console. all the log
+	 * statements with status below the threshold will be ignored. Log hierarchy is
+	 * given as:
+	 * <li>debug: 0,</li>
+	 * <li>info: 1,</li>
+	 * <li>pass: 2,</li>
+	 * <li>skip: 3,</li>
+	 * <li>warning: 4,</li>
+	 * <li>error: 5,</li>
+	 * <li>fail: 6,</li>
+	 * <li>fatal: 7.</li>
+	 */
+	public static final Status minimumLogLevel = Status.DEBUG;
 
 	/** set all the required capabilities in the static block */
 	public static final InternetExplorerOptions ieOptions = new InternetExplorerOptions();
