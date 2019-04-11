@@ -16,6 +16,8 @@ public class Configurations {
 	public static final int ShortTimeOut = 5;// in seconds
 	public static final int LongTimeOut = 60;// in seconds
 	
+	public static final String highlightColor = "#00CC00"; //hexadecimal color for the highlight of elements
+	
 	/**set all the required options in the static block*/
 	public static final InternetExplorerOptions ieOptions = new InternetExplorerOptions();
 	static

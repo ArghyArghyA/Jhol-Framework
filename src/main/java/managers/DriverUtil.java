@@ -38,15 +38,16 @@ import net.sourceforge.htmlunit.corejs.javascript.ast.CatchClause;
  */
 public class DriverUtil
 {
-
+	protected static Actions act;
+	protected static HashMap<String, String> dictionary = new HashMap<String, String>();
+	protected static Reporter reporter;
+	private static String webElementStyle = "";
 	protected static WebDriverWait shortWait;
 	protected static WebDriverWait longWait;
-	protected static Actions act;
-	protected static Reporter reporter;
 	protected static WebDriver driver;
-	protected static WiniumDriver windowsDriver;
+	private static WebElement webElement;
 	private static WebElement windowElement;
-	protected static HashMap<String, String> dictionary = new HashMap<String, String>();
+	protected static WiniumDriver windowsDriver;
 
 	public DriverUtil(Reporter reportManager)
 	{
@@ -112,6 +113,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
+			highlight(ele);
 			ele.clear();
 			log(Status.INFO, "Successfully cleared " + by.toString());
 		} catch (Exception e)
@@ -160,6 +162,7 @@ public class DriverUtil
 	{
 		try
 		{
+			highlight(ele);
 			ele.clear();
 			log(Status.INFO, "Successfully cleared " + ele.toString());
 		} catch (Exception e)
@@ -194,13 +197,10 @@ public class DriverUtil
 		try
 		{
 			if (waitForPageLoad) waitForPageToLoad();
-			if (explicitWait)
-			{
-				shortWait.until(ExpectedConditions.elementToBeClickable(by)).click();
-			} else
-			{
-				driver.findElement(by).click();
-			}
+			WebElement ele = explicitWait? shortWait.until(ExpectedConditions.elementToBeClickable(by))
+					: driver.findElement(by);
+			highlight(ele);
+			ele.click();
 			log(Status.INFO, "Successfully clicked on " + by.toString());
 
 		} catch (Exception e)
@@ -246,6 +246,7 @@ public class DriverUtil
 	{
 		try
 		{
+			highlight(webElement);
 			webElement.click();
 			log(Status.INFO, "Successfully clicked on " + webElement.toString());
 
@@ -425,6 +426,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
+			highlight(ele);
 			log(Status.INFO, "Successfully identified " + by.toString());
 
 		} catch (Exception e)
@@ -586,6 +588,35 @@ public class DriverUtil
 	}
 
 	/**
+	 * highlights a given webelement
+	 * 
+	 * @param ele Webelement to be highlighted
+	 */
+	private void highlight(WebElement ele)
+	{
+		try
+		{
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			try
+			{
+				js.executeScript("arguments[0].setAttribute('style', '" + webElementStyle + "');", webElement);
+			} catch (Exception e)
+			{
+				// do nothing
+			}
+
+			String style = ele.getAttribute("style");
+			js.executeScript("arguments[0].setAttribute('style', '" + style + " border: 4px solid "
+					+ Configurations.highlightColor + " !important;');", ele);
+			webElement = ele;
+			webElementStyle = style;
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Mouse hovers over the element identified by the <code>by</code> object.
 	 * Returns <code>true</code> if succeeds otherwise <code>false</code>
 	 * 
@@ -634,6 +665,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
+			highlight(ele);
 			act.moveToElement(ele).build().perform();
 			log(Status.INFO, "Successfully hovered over " + by.toString());
 		} catch (Exception e)
@@ -657,6 +689,7 @@ public class DriverUtil
 	{
 		try
 		{
+			highlight(ele);
 			act.moveToElement(ele).build().perform();
 			log(Status.INFO, "Successfully hovered over " + ele.toString());
 		} catch (Exception e)
@@ -823,7 +856,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
-
+			highlight(ele);
 			Select select = new Select(ele);
 			int maxSize = ele.findElements(By.tagName("option")).size();
 			String text = ele.findElements(By.tagName("option")).get(new Random().nextInt(maxSize - 1) + 1).getText();
@@ -850,6 +883,7 @@ public class DriverUtil
 	{
 		try
 		{
+			highlight(ele);
 			Select select = new Select(ele);
 			int maxSize = ele.findElements(By.tagName("option")).size();
 			String text = ele.findElements(By.tagName("option")).get(new Random().nextInt(maxSize - 1) + 1).getText();
@@ -917,7 +951,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
-
+			highlight(ele);
 			Select select = new Select(ele);
 			String text = ele.findElements(By.tagName("option")).get(index).getText();
 //			select.selectByIndex(index);
@@ -945,6 +979,7 @@ public class DriverUtil
 	{
 		try
 		{
+			highlight(ele);
 			Select select = new Select(ele);
 			String text = ele.findElements(By.tagName("option")).get(index).getText();
 			select.selectByVisibleText(text);
@@ -1014,6 +1049,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
+			highlight(ele);
 			Select select = new Select(ele);
 			select.selectByValue(text);
 			log(Status.INFO, "Successfully selected " + text + " from " + by.toString());
@@ -1041,6 +1077,7 @@ public class DriverUtil
 	{
 		try
 		{
+			highlight(ele);
 			Select select = new Select(ele);
 			select.selectByValue(text);
 			log(Status.INFO, "Successfully selected " + text + " from " + ele.toString());
@@ -1109,6 +1146,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
+			highlight(ele);
 			Select select = new Select(ele);
 			select.selectByVisibleText(text);
 			log(Status.INFO, "Successfully selected " + text + " from " + by.toString());
@@ -1137,6 +1175,7 @@ public class DriverUtil
 	{
 		try
 		{
+			highlight(ele);
 			Select select = new Select(ele);
 			select.selectByVisibleText(text);
 			log(Status.INFO, "Successfully selected " + text + " from " + ele.toString());
@@ -1186,6 +1225,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
+			highlight(ele);
 			ele.click();
 			for (int i = 0; i < index; i++)
 			{
@@ -1218,6 +1258,7 @@ public class DriverUtil
 	{
 		try
 		{
+			highlight(ele);
 			ele.click();
 			for (int i = 0; i < index; i++)
 			{
@@ -1271,6 +1312,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
+			highlight(ele);
 			ele.click();
 			String initialText = ele.getText();
 			while (!initialText.startsWith(text))
@@ -1398,6 +1440,7 @@ public class DriverUtil
 			{
 				ele = driver.findElement(by);
 			}
+			highlight(ele);
 			ele.clear();
 			ele.sendKeys(text + Keys.TAB);
 			log(Status.INFO, "Successfully filled " + by.toString() + " by " + text);
@@ -1448,6 +1491,7 @@ public class DriverUtil
 
 		try
 		{
+			highlight(ele);
 			ele.clear();
 			ele.sendKeys(text + Keys.TAB);
 			log(Status.INFO, "Successfully filled " + ele.toString() + " by " + text);
