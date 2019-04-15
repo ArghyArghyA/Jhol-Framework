@@ -82,6 +82,11 @@ public class Configurations {
 	 * Path for the Data-sheet. can be relative or full path
 	 */
 	public static final String DataSheetPath = "./src/test/resources/Data/DataSheet.xlsx";
+	
+	/**
+	 * Path for the Feature File. can be relative or full path
+	 */
+	public static final String FeatureFilePath = "./src/test/resources/FunctionalTests/test.feature";
 
 	/**
 	 * String class name including package name as <code>package.class</code>

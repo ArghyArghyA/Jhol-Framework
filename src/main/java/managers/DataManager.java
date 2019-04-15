@@ -2,7 +2,9 @@ package managers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,9 +49,12 @@ public class DataManager {
 							data.put(header.get(cell.getColumnIndex()), text);
 					}
 					if (row.getCell(0).getStringCellValue().toUpperCase().equalsIgnoreCase("YES")) {
+						for (OutPutFields fields : OutPutFields.values()) {
+							data.remove(fields.columnHeader);
+						}
 						data.put("index", Integer.toString(row.getRowNum()));// zero indexed row number
 						data.put("sheet", sheet.getSheetName());
-						if(browser.isEmpty())
+						if (browser.isEmpty())
 							data.put("browser", "Chrome");
 						else
 							data.put("browser", browser);
@@ -76,8 +81,7 @@ public class DataManager {
 
 			// update the excel file
 			for (OutPutFields o : OutPutFields.values()) {
-				worksheet.getRow(index).getCell(o.columnIndex)
-						.setCellValue(dictionary.get(o.columnHeader));
+				worksheet.getRow(index).getCell(o.columnIndex).setCellValue(dictionary.get(o.columnHeader));
 			}
 			input.close();
 		} catch (IOException e) {
@@ -98,4 +102,39 @@ public class DataManager {
 		}
 	}
 
+	public static void createFeatureFile(List<HashMap<String, String>> Data) throws IOException {
+		List<HashMap<String, String>> Features = new ArrayList<HashMap<String, String>>();
+		for (HashMap<String, String> data : Data) {
+			HashMap<String, String> feature = new HashMap<String, String>();
+			String header = "|";
+			String testCase = "|";
+
+			for (String key : data.keySet()) {
+				header = header + key + "|";
+				testCase = testCase + data.get(key) + "|";
+			}
+
+			feature.put("scenario", "Scenario: " + data.get("TestCaseDescription") + " : " + data.get("TestCaseID"));
+			feature.put("given", "Given " + data.get("TestCaseDescription"));
+			feature.put("header", header);
+			feature.put("testCase", testCase);
+
+			Features.add(feature);
+		}
+
+		FileWriter output = null;
+		File file = new File(Configurations.FeatureFilePath);
+		file.createNewFile();
+		output = new FileWriter(file);
+
+		output.write("Feature: test\n");
+		for (HashMap<String, String> feature : Features) {
+			output.write("\n" + feature.get("scenario") + "\n");
+			output.write(feature.get("given") + "\n");
+			output.write(feature.get("header") + "\n");
+			output.write(feature.get("testCase") + "\n");
+		}
+
+		output.close();
+	}
 }

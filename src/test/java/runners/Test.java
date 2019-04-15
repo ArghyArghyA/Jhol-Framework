@@ -2,6 +2,9 @@ package runners;
 
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import org.openqa.selenium.By;
@@ -15,6 +18,8 @@ import org.openqa.selenium.winium.WiniumDriver;
 import com.aventstack.extentreports.Status;
 
 import dataProviders.Configurations;
+import dataProviders.Configurations.OutPutFields;
+import managers.DataManager;
 
 
 public class Test
@@ -39,11 +44,8 @@ public class Test
 //		driver.findElement(By.xpath("//h3[text()='Jhol (film) - Wikipedia']")).click();
 //		driver.quit();
 		
-//		System.out.println(!true);
-		//test
-		for (Status status: Status.values())
-		{
-			System.out.println(status + " : "+status.ordinal());
-		}
+		List<HashMap<String, String>> Data =  DataManager.read();
+		DataManager.createFeatureFile(Data);
+//		System.out.println(Features);
 	}
 }

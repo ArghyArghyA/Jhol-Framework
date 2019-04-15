@@ -1,5 +1,19 @@
-Feature: New Business Home
+Feature: test
 
-#First Scenarios: Policy for CA State
-Scenario: Policy for CA State
-Given Agent logs in for CA state
+Scenario: Google : 16
+Given Google
+Examples:
+|Execute|browser|TestCaseID|index|sheet|TestCaseDescription|
+|Yes|Chrome|16|2|Google|Google|
+
+Scenario: Google : 16
+Given Google
+Examples:
+|Execute|browser|TestCaseID|Search Keyword|index|sheet|TestCaseDescription|
+|Yes|Chrome|16|jhol|3|Google|Google|
+
+Scenario: Google : 16
+Given Google
+Examples:
+|Execute|browser|TestCaseID|Search Keyword|index|sheet|TestCaseDescription|
+|Yes|Chrome|16|Another Jhol|4|Google|Google|
