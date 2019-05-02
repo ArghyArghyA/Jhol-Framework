@@ -81,7 +81,6 @@ public class Jhol {
 //			
 //			public void actionPerformed(ActionEvent e)
 //			{
-//				// TODO Auto-generated method stub
 //				if (Thread.currentThread().getState() == Thread.State.WAITING)
 //				{
 //					Thread.currentThread().resume();
@@ -92,7 +91,6 @@ public class Jhol {
 //						Thread.currentThread().wait();
 //					} catch (InterruptedException e1)
 //					{
-//						// TODO Auto-generated catch block
 //						e1.printStackTrace();
 //					}
 //				}
@@ -131,5 +129,6 @@ public class Jhol {
 			progressBar.setValue(counter);
 			Thread.sleep(5000);
 		}
+		frame.dispose();
 	}
 }

@@ -1,24 +1,8 @@
 package runners;
 
-import java.net.URL;
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.winium.DesktopOptions;
-import org.openqa.selenium.winium.WiniumDriver;
-
-import com.aventstack.extentreports.Status;
-
-import dataProviders.Configurations;
-import dataProviders.Configurations.OutPutFields;
 import managers.DataManager;
 
 
@@ -47,5 +31,6 @@ public class Test
 		List<HashMap<String, String>> Data =  DataManager.read();
 		DataManager.createFeatureFile(Data);
 //		System.out.println(Features);
+		System.out.println("test");
 	}
 }

@@ -11,7 +11,6 @@ public class Windows extends DriverUtil
 	public Windows(Reporter reportManager)
 	{
 		super(reportManager);
-		// TODO Auto-generated constructor stub
 	}
 
 	public boolean notepad()

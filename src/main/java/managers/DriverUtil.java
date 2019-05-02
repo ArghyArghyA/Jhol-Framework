@@ -30,7 +30,6 @@ import com.aventstack.extentreports.Status;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import dataProviders.Configurations;
-import net.sourceforge.htmlunit.corejs.javascript.ast.CatchClause;
 
 /**
  * @author argroy
