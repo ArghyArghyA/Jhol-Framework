@@ -47,14 +47,14 @@ public class Jhol {
 	 * demo on transaction implementation above DO NOT Uncomment/Do NOT Change
 	 ***********************************************************************************************************************/
 
-	public static void Google(HashMap<String, String> dictionary) {
+	public static void Google(HashMap<String, String> dictionary) throws Exception {
 		report.reportTest(dictionary);
 		Search s = new Search(report);
 		if (s.search()) s.clickFirstResult();
 		report.endTest();
 	}
 	
-	public static void windows(HashMap<String, String> dictionary)
+	public static void windows(HashMap<String, String> dictionary) throws Exception
 	{
 		report.reportTest(dictionary);
 		Windows w = new Windows(report);

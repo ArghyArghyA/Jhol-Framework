@@ -76,6 +76,22 @@ public class DriverUtil {
 	}
 
 	/**
+	 * Brings the window to front for given Element. Strictly applicable for Windows
+	 * Automation. Executes little command-line applet BringToFront placed at
+	 * "./src/main/resources/" for the same which accepts processID for the application as argument
+	 * 
+	 * @param element The WebELement for which the associated window needs to be
+	 *                brought to front
+	 */
+	private void bringToFront(WebElement element) {
+		try {
+			Runtime.getRuntime().exec("./src/main/resources/BringToFront.exe " + element.getAttribute("ProcessId"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Clears the input field identified by the provided <code>By</code> object by
 	 * using Selenium <code>WebElement.clear()</code>. If it succeeds to select
 	 * returns <code>true</code>, <code>false</code> otherwise.
@@ -714,6 +730,7 @@ public class DriverUtil {
 	 * depends on the <code>Configurations.minimumLogLevel<code>
 	 * 
 	 * @param status   <code>Status</code>LogStatus can be PASS, FAIL, WARNING etc
+	 * 
 	 * @param stepName <code>String</code>short description of the step
 	 * @param e        <code>Throwable</code>If any exception occurred during the
 	 *                 step
@@ -1697,6 +1714,7 @@ public class DriverUtil {
 					xPath = "/*[@" + attributeName + " = '" + attributeValue + "']";
 			}
 			windowElement = windowsDriver.findElement(By.xpath(xPath));
+			bringToFront(windowElement);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log(Status.INFO, "Unable to switch to window with " + attributeName + " = " + attributeValue, e);
@@ -1804,7 +1822,9 @@ public class DriverUtil {
 	 */
 	protected boolean wClick(By by) {
 		try {
-			windowElement.findElement(by).click();
+			WebElement ele = windowElement.findElement(by);
+			bringToFront(ele);
+			ele.click();
 			log(Status.INFO, "Successfully clicked on " + by.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1832,7 +1852,9 @@ public class DriverUtil {
 	 */
 	protected boolean wSendkeys(By by, String string) {
 		try {
-			windowElement.findElement(by).sendKeys(string);
+			WebElement ele = windowElement.findElement(by);
+			bringToFront(ele);
+			ele.sendKeys(string);
 			log(Status.INFO, "Successfully clicked on " + by.toString());
 		} catch (Exception e) {
 			e.printStackTrace();

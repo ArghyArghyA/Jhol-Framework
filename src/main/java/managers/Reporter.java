@@ -21,6 +21,7 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import dataProviders.Configurations;
 import dataProviders.Configurations.OutPutFields;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.apache.commons.io.FileUtils;
 
@@ -49,19 +50,23 @@ public final class Reporter {
 
 		report.attachReporter(htmlReporter);
 		new File("./src/test/resources/Results/Screenshot/" + timeStamp).mkdir();
-		System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
-		System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
-		System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
-		System.setProperty("webdriver.winium.driver.desktop", "./src/main/resources/Winium.Desktop.Driver.exe");
+		/*
+		 * uncomment the below lines, in case having any driver spawn related issue.
+		 * Also download latest version of corresponding driver.exe in
+		 * "./src/main/resources/" folder
+		 */
+//		System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
+//		System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
+//		System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
+//		System.setProperty("webdriver.winium.driver.desktop", "./src/main/resources/Winium.Desktop.Driver.exe");
 
 	}
-	
-	public static Reporter getInstance()
-	{
+
+	public static Reporter getInstance() {
 		return reporter;
 	}
 
-	public void reportTest(HashMap<String, String> dictionary) {
+	public void reportTest(HashMap<String, String> dictionary) throws Exception {
 		testName = dictionary.get("TestCaseID");
 		String testDescription = "<h5>" + dictionary.get("TestCaseDescription") + "</h5>" + "<p>"
 				+ dictionary.toString().replace("{", "").replace("}", "") + "</p>";
@@ -71,18 +76,23 @@ public final class Reporter {
 		DriverUtil.dictionary.putAll(dictionary);
 
 		String browser = dictionary.get("browser");
-		if (browser.equalsIgnoreCase("chrome"))
+		if (browser.equalsIgnoreCase("chrome")) {
+			WebDriverManager.chromedriver().setup();
 			DriverUtil.driver = new ChromeDriver(Configurations.chromeOptions);
-		else if (browser.equalsIgnoreCase("firefox"))
+		} else if (browser.equalsIgnoreCase("firefox")) {
+			WebDriverManager.firefoxdriver().setup();
 			DriverUtil.driver = new FirefoxDriver(Configurations.firefoxOptions);
-		else if (browser.equalsIgnoreCase("ie"))	
+		} else if (browser.equalsIgnoreCase("ie")) {
+			WebDriverManager.iedriver().setup();
 			DriverUtil.driver = new InternetExplorerDriver(Configurations.ieOptions);
-		else if (browser.equalsIgnoreCase("safari"))
+		} else if (browser.equalsIgnoreCase("safari")) {
 			DriverUtil.driver = new SafariDriver(Configurations.safariOptions);
+		} else {
+			throw new Exception("UnImplemented browser");
+		}
 		DriverUtil.driver.manage().deleteAllCookies();
 		DriverUtil.driver.get(Configurations.URL);
 		DriverUtil.driver.manage().window().maximize();
-		
 
 		reportEvent(Status.INFO, "Successfully opened " + browser);
 		System.out.println("Successfully opened " + browser);
