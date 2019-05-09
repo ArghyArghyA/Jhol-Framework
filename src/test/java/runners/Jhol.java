@@ -3,6 +3,8 @@ package runners;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,7 +53,7 @@ public class Jhol {
 		report.reportTest(dictionary);
 		Search s = new Search(report);
 		Windows w = new Windows(report);
-		boolean proceed = s.search() && s.clickFirstResult() && w.saveSearchResult();
+		boolean proceed = s.search() && s.clickFirstResult();// && w.saveSearchResult();
 		report.endTest();
 	}
 	
@@ -102,8 +104,9 @@ public class Jhol {
 
 		frame.setSize(300, 45);
 		frame.setLocationRelativeTo(null);
-
-		List<HashMap<String, String>> Data = DataManager.read();
+		
+		ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(args));
+		List<HashMap<String, String>> Data = DataManager.read(arguments);
 		int numberOfTestcases = Data.size();
 
 		int counter = 0;

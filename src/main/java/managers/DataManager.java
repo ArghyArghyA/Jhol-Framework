@@ -24,7 +24,8 @@ public class DataManager {
 
 	public static List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
 
-	public static List<HashMap<String, String>> read() throws IOException, InvalidFormatException {
+	public static List<HashMap<String, String>> read(ArrayList<String> arguments)
+			throws IOException, InvalidFormatException {
 		OPCPackage pkg = OPCPackage.open(Configurations.DataSheetPath);
 		Workbook workbook = new XSSFWorkbook(pkg);
 		Sheet masterSheet = workbook.getSheet("MasterSheet");
@@ -47,18 +48,27 @@ public class DataManager {
 						if (!text.trim().equalsIgnoreCase(""))
 							data.put(header.get(cell.getColumnIndex()), text);
 					}
-					if (row.getCell(0).getStringCellValue().toUpperCase().equalsIgnoreCase("YES")) {
-						for (OutPutFields fields : OutPutFields.values()) {
-							data.remove(fields.columnHeader);
-						}
-						data.put("index", Integer.toString(row.getRowNum()));// zero indexed row number
-						data.put("sheet", sheet.getSheetName());
-						if (browser.isEmpty())
-							data.put("browser", "Chrome");
-						else
-							data.put("browser", browser);
-						dataList.add(data);
+//					System.out.println(arguments.size());
+//					if ((arguments.size() == 0
+//							&& row.getCell(0).getStringCellValue().toUpperCase().equalsIgnoreCase("YES"))
+//							|| arguments.contains(row.getCell(1).getStringCellValue().toUpperCase())
+//							|| arguments.get(0).equalsIgnoreCase("ALL")) {
+					for (OutPutFields fields : OutPutFields.values()) {
+						data.remove(fields.columnHeader);
 					}
+					data.put("index", Integer.toString(row.getRowNum()));// zero indexed row number
+					data.put("sheet", sheet.getSheetName());
+					if (browser.isEmpty())
+						data.put("browser", "Chrome");
+					else
+						data.put("browser", browser);
+					if (arguments.size() == 0) {
+						if (row.getCell(0).getStringCellValue().toUpperCase().equalsIgnoreCase("YES"))
+							dataList.add(data);
+					} else if (arguments.contains(row.getCell(1).getStringCellValue().toUpperCase())
+							|| arguments.get(0).equalsIgnoreCase("ALL"))
+						dataList.add(data);
+//					}
 				}
 			}
 		}
