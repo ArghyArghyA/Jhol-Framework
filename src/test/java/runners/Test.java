@@ -1,10 +1,5 @@
 package runners;
 
-import java.util.HashMap;
-import java.util.List;
-
-import managers.DataManager;
-
 
 public class Test
 {
@@ -28,9 +23,10 @@ public class Test
 //		driver.findElement(By.xpath("//h3[text()='Jhol (film) - Wikipedia']")).click();
 //		driver.quit();
 		
-		List<HashMap<String, String>> Data =  DataManager.read();
-		DataManager.createFeatureFile(Data);
+//		List<HashMap<String, String>> Data =  DataManager.read();
+//		DataManager.createFeatureFile(Data);
 //		System.out.println(Features);
+		System.out.println(System.getProperty("user.dir"));
 		System.out.println("test");
 	}
 }

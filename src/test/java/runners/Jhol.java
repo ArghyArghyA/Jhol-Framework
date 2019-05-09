@@ -50,7 +50,8 @@ public class Jhol {
 	public static void Google(HashMap<String, String> dictionary) throws Exception {
 		report.reportTest(dictionary);
 		Search s = new Search(report);
-		if (s.search()) s.clickFirstResult();
+		Windows w = new Windows(report);
+		boolean proceed = s.search() && s.clickFirstResult() && w.saveSearchResult();
 		report.endTest();
 	}
 	

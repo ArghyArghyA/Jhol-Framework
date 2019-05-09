@@ -135,6 +135,11 @@ public final class Reporter {
 		report.flush();
 
 		try {
+			if (DriverUtil.windowsDriver!=null)
+			{
+				DriverUtil.windowsDriver.quit();
+				DriverUtil.windowsDriver = null;
+			}
 			String command = "taskkill /F /IM Winium.Desktop.Driver.exe";
 			Runtime.getRuntime().exec(command);
 			DriverUtil.driver.quit();

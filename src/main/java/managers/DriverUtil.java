@@ -3,16 +3,17 @@ package managers;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.JavascriptException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -21,7 +22,9 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.winium.DesktopOptions;
 import org.openqa.selenium.winium.WiniumDriver;
@@ -32,11 +35,11 @@ import com.paulhammant.ngwebdriver.NgWebDriver;
 import dataProviders.Configurations;
 
 /**
- * @author argroy
+ * @author Alpha Romeo
  *
  */
 public class DriverUtil {
-	protected static Actions act;
+	protected static Action act;
 	protected static HashMap<String, String> dictionary = new HashMap<String, String>();
 	protected static Reporter reporter;
 	private static String webElementStyle = "";
@@ -50,7 +53,7 @@ public class DriverUtil {
 	public DriverUtil(Reporter reportManager) {
 		super();
 		DriverUtil.reporter = reportManager;
-		DriverUtil.act = new Actions(driver);
+		DriverUtil.act = new Action(driver);
 		DriverUtil.shortWait = new WebDriverWait(driver, Configurations.ShortTimeOut);
 		DriverUtil.longWait = new WebDriverWait(driver, Configurations.LongTimeOut);
 	}
@@ -78,7 +81,8 @@ public class DriverUtil {
 	/**
 	 * Brings the window to front for given Element. Strictly applicable for Windows
 	 * Automation. Executes little command-line applet BringToFront placed at
-	 * "./src/main/resources/" for the same which accepts processID for the application as argument
+	 * "./src/main/resources/" for the same which accepts processID for the
+	 * application as argument
 	 * 
 	 * @param element The WebELement for which the associated window needs to be
 	 *                brought to front
@@ -335,6 +339,35 @@ public class DriverUtil {
 	}
 
 	/**
+	 * An sophisticated fluentwait method with provision of customization.
+	 * 
+	 * @param classType a Class object for the class where methods are declared
+	 *                  which needs to be evaluated to be true
+	 * @param methods   the method names all of which must be true in order to
+	 *                  complete the contract of FluentWait
+	 * @return boolean value depending on complete contract or time-out
+	 */
+	protected boolean fluentWait(Class<?> classType, String... methods) {
+		Wait<WebDriver> fWait = new FluentWait<WebDriver>(driver)
+				.withTimeout(Duration.ofSeconds(Configurations.LongTimeOut)).pollingEvery(Duration.ofMillis(100))
+				.ignoring(Exception.class);
+		return fWait.until(new Function<WebDriver, Boolean>() {
+			public Boolean apply(WebDriver driver) {
+				boolean proceed = true;
+				for (String methodName : methods) {
+					try {
+						proceed = proceed && (boolean) classType.getMethod(methodName).invoke(classType.newInstance());
+					} catch (Exception e) {
+						System.out.println(e);
+						return false;
+					}
+				}
+				return proceed;
+			}
+		});
+	}
+
+	/**
 	 * Generates a random number of the specified length
 	 * 
 	 * @param length <code>Integer</code> length of the required Number
@@ -346,8 +379,9 @@ public class DriverUtil {
 			result = result * 10 + (new Random().nextInt(10));
 		}
 		if (Long.toString(result).length() != length)
-			result = generateRandomNumber(length);
-		return result;
+			return generateRandomNumber(length);
+		else
+			return result;
 
 	}
 
@@ -376,7 +410,7 @@ public class DriverUtil {
 	 * @return the <code>WebElement</Code> (if) identified by the <code>By</code>
 	 *         object. <code>null</code> otherwise
 	 */
-	protected WebElement get(By by) {
+	protected static WebElement get(By by) {
 		return get(by, true, true);
 	}
 
@@ -401,7 +435,7 @@ public class DriverUtil {
 	 * @return the <code>WebElement</Code> (if) identified by the <code>By</code>
 	 *         object. <code>null</code> otherwise
 	 */
-	protected WebElement get(By by, boolean waitForPageLoad, boolean explicitWait) {
+	protected static WebElement get(By by, boolean waitForPageLoad, boolean explicitWait) {
 		WebElement ele = null;
 		try {
 			if (waitForPageLoad)
@@ -436,6 +470,23 @@ public class DriverUtil {
 	 */
 	protected List<WebElement> getAll(By by) {
 		return getAll(by, true, true);
+	}
+
+	/**
+	 * @param keyWord keyword to get value for
+	 * @return string value for the key
+	 */
+	protected String get(String keyWord) {
+		return dictionary.get(keyWord).trim();
+	}
+	
+	/**
+	 * @param keyWord keyword to get value for
+	 * @param regex regular expression to split the value
+	 * @return array of strings
+	 */
+	protected String[] get(String keyWord, String regex) {
+		return dictionary.get(keyWord).trim().split(regex);
 	}
 
 	/**
@@ -564,9 +615,9 @@ public class DriverUtil {
 	 * 
 	 * @param ele Webelement to be highlighted
 	 */
-	private void highlight(WebElement ele) {
+	private static WebElement highlight(WebElement ele) {
 		if (!Configurations.enableHighlight)
-			return;
+			return ele;
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			try {
@@ -583,6 +634,7 @@ public class DriverUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return ele;
 	}
 
 	/**
@@ -632,7 +684,7 @@ public class DriverUtil {
 			}
 			scrollToView(ele);
 			highlight(ele);
-			act.moveToElement(ele).build().perform();
+			act.moveToElement(ele);
 			log(Status.INFO, "Successfully hovered over " + by.toString());
 		} catch (Exception e) {
 			log(Status.INFO, "Unable to hover over " + by.toString(), e);
@@ -654,7 +706,7 @@ public class DriverUtil {
 		try {
 			scrollToView(ele);
 			highlight(ele);
-			act.moveToElement(ele).build().perform();
+			act.moveToElement(ele);
 			log(Status.INFO, "Successfully hovered over " + ele.toString());
 		} catch (Exception e) {
 			log(Status.INFO, "Unable to hover over " + ele.toString(), e);
@@ -721,7 +773,7 @@ public class DriverUtil {
 	 * @param status   <code>Status</code>LogStatus can be PASS, FAIL, WARNING etc
 	 * @param stepName <code>String</code>short description of the step
 	 */
-	protected void log(Status status, String stepName) {
+	protected static void log(Status status, String stepName) {
 		log(status, stepName, null);
 	}
 
@@ -735,7 +787,7 @@ public class DriverUtil {
 	 * @param e        <code>Throwable</code>If any exception occurred during the
 	 *                 step
 	 */
-	protected void log(Status status, String stepName, Throwable e) {
+	protected static void log(Status status, String stepName, Throwable e) {
 		switch (Configurations.minimumLogLevel) {
 		case ERROR:
 			if (!(status == Status.ERROR || status == Status.FAIL || status == Status.FATAL))
@@ -803,7 +855,7 @@ public class DriverUtil {
 	 * 
 	 * @param webElement
 	 */
-	private void scrollToView(WebElement webElement) {
+	private static void scrollToView(WebElement webElement) {
 		if (!Configurations.enableScrollToView)
 			return;
 		try {
@@ -1213,6 +1265,7 @@ public class DriverUtil {
 			ele.click();
 			for (int i = 0; i < index; i++) {
 				ele.sendKeys(Keys.ARROW_DOWN);
+				waitForPageToLoad();
 			}
 			String text = ele.getAttribute("value");
 			ele.sendKeys(Keys.TAB);
@@ -1243,6 +1296,7 @@ public class DriverUtil {
 			ele.click();
 			for (int i = 0; i < index; i++) {
 				ele.sendKeys(Keys.ARROW_DOWN);
+				waitForPageToLoad();
 			}
 			String text = ele.getAttribute("value");
 			ele.sendKeys(Keys.TAB);
@@ -1260,54 +1314,81 @@ public class DriverUtil {
 	 * any other cases where standard methods does not work. May need to be
 	 * revised/Overridden depending on the application
 	 * 
-	 * @param by
-	 * @param text
-	 * @return
-	 * @deprecated
+	 * @param by   identifier for target dropdown
+	 * @param text String that should be part of text of the target option
+	 * @return boolean value depending on successful or not
 	 */
 	protected boolean selectComboByVisibleText(By by, String text) {
-		return selectComboByVisibleText(by, text, true, true);
+		return selectComboByVisibleText(by, text, true, true, false);
 	}
 
 	/**
-	 * @deprecated
-	 * @param by
-	 * @param text
-	 * @param explicitWait
-	 * @return
-	 * @throws Exception
+	 * Application specific dropdown selection methods. Can be used for combo box or
+	 * any other cases where standard methods does not work. May need to be
+	 * revised/Overridden depending on the application
+	 * 
+	 * @param by              identifier for target dropdown
+	 * @param text            String that should be part/entire text of the target
+	 *                        option
+	 * @param explicitWait    flag to determine explicitly wait or not
+	 * @param waitForPageLoad flag to determine wait for page to load or not
+	 * @param exactMatch      flag to determine whether to match entire or partial
+	 *                        text
+	 * @return boolean value depending on successful or not
 	 */
-	protected boolean selectComboByVisibleText(By by, String text, boolean waitForPageLoad, boolean explicitWait) {
+	protected boolean selectComboByVisibleText(By by, String text, boolean waitForPageLoad, boolean explicitWait,
+			boolean exactMatch) {
 		try {
-			if (waitForPageLoad)
-				waitForPageToLoad();
-			WebElement ele;
-			if (explicitWait) {
-				ele = shortWait.until(ExpectedConditions.elementToBeClickable(by));
-			} else {
-				ele = driver.findElement(by);
-			}
-			scrollToView(ele);
-			highlight(ele);
-			ele.click();
-			String initialText = ele.getText();
-			while (!initialText.startsWith(text)) {
-				ele.sendKeys(Keys.ARROW_DOWN);
-				String finalText = ele.getText();
-				if (initialText.equalsIgnoreCase(finalText)) {
-					throw new InvalidArgumentException(text + " could not be found in the " + by.toString());
-				} else {
-					initialText = finalText;
-				}
-			}
-			ele.sendKeys(Keys.TAB);
-			log(Status.INFO, "Successfully selected " + text + " from " + by.toString());
+			By xPathOfTargetOption;
+			if (exactMatch)
+				xPathOfTargetOption = By.xpath("//div[text()='" + text + "']");
+			else
+				xPathOfTargetOption = By.xpath("//div[contains(text(), '" + text + "')]");
+
+			return click(by, waitForPageLoad, explicitWait) && waitForPageLoad
+					&& click(xPathOfTargetOption, waitForPageLoad, explicitWait);
 		} catch (Exception e) {
 			log(Status.INFO, "Unable to select " + text + " from " + by.toString(), e);
 			return false;
 		}
-		return true;
+	}
 
+	/**
+	 * Application specific dropdown selection methods. Can be used for combo box or
+	 * any other cases where standard methods does not work. May need to be
+	 * revised/Overridden depending on the application
+	 * 
+	 * @param element target element
+	 * @param text    String that should be partial match of the target option
+	 * @return boolean value depending on successful or not
+	 */
+	protected boolean selectComboByVisibleText(WebElement element, String text) {
+		return selectComboByVisibleText(element, text, false);
+	}
+
+	/**
+	 * Application specific dropdown selection methods. Can be used for combo box or
+	 * any other cases where standard methods does not work. May need to be
+	 * revised/Overridden depending on the application
+	 * 
+	 * @param element    target element
+	 * @param text       String that should be part/entire text of the target option
+	 * @param exactMatch flag to determine whether to match entire or partial text
+	 * @return boolean value depending on successful or not
+	 */
+	protected boolean selectComboByVisibleText(WebElement element, String text, boolean exactMatch) {
+		try {
+			By xPathOfTargetOption;
+			if (exactMatch)
+				xPathOfTargetOption = By.xpath("//div[text()='" + text + "']");
+			else
+				xPathOfTargetOption = By.xpath("//div[contains(text(), '" + text + "')]");
+
+			return click(element) && waitForPageToLoad() && click(xPathOfTargetOption);
+		} catch (Exception e) {
+			log(Status.INFO, "Unable to select " + text + " from " + element.toString(), e);
+			return false;
+		}
 	}
 
 	/**
@@ -1472,7 +1553,7 @@ public class DriverUtil {
 	 * 
 	 * @return <code>true</code> if successful, <code>false</code> otherwise
 	 */
-	protected boolean startDesktopAutomation() {
+	private boolean startDesktopAutomation() {
 		try {
 			DesktopOptions options = new DesktopOptions();
 			options.setDebugConnectToRunningApp(true);
@@ -1713,8 +1794,11 @@ public class DriverUtil {
 				else
 					xPath = "/*[@" + attributeName + " = '" + attributeValue + "']";
 			}
+			if (windowsDriver == null)
+				startDesktopAutomation();
 			windowElement = windowsDriver.findElement(By.xpath(xPath));
 			bringToFront(windowElement);
+			log(Status.INFO, "Succesfully switched to window with " + attributeName + " = " + attributeValue);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log(Status.INFO, "Unable to switch to window with " + attributeName + " = " + attributeValue, e);
@@ -1770,7 +1854,7 @@ public class DriverUtil {
 	 * @return <code>true</code> or <code>false</code> depending on whether the page
 	 *         load is complete or not after the Page Load Time Out
 	 */
-	protected boolean waitForPageToLoad() {
+	protected static boolean waitForPageToLoad() {
 		try {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			NgWebDriver ajsDriver = new NgWebDriver(js);
@@ -1855,12 +1939,656 @@ public class DriverUtil {
 			WebElement ele = windowElement.findElement(by);
 			bringToFront(ele);
 			ele.sendKeys(string);
-			log(Status.INFO, "Successfully clicked on " + by.toString());
+			log(Status.INFO, "Successfully typed " + string + " into " + by.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
-			log(Status.INFO, "Unable to click on " + by.toString(), e);
+			log(Status.INFO, "Unable to type" + string + " into " + by.toString(), e);
 			return false;
 		}
 		return true;
+	}
+
+	static class Action {
+		private static Actions action;
+
+		public Action(WebDriver driver) {
+			action = new Actions(driver);
+		}
+
+		/**
+		 * Clicks at the current mouse location. Useful when combined with
+		 * moveToElement(org.openqa.selenium.WebElement, int, int) or moveByOffset(int,
+		 * int).
+		 * 
+		 * @return A self reference
+		 */
+		public Action click() {
+			try {
+				action.click().build().perform();
+				log(Status.INFO, "Successfully clicked");
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to click", e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * Clicks in the middle of the given element. Equivalent to:
+		 * <Code>Actions.moveToElement(onElement).click()</code>
+		 * 
+		 * @param target Element to click
+		 * @return A self reference
+		 */
+		public Action click(By target) {
+			try {
+				action.click(get(target)).build().perform();
+				log(Status.INFO, "Successfully clicked on " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to clicked on " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Clicks in the middle of the given element. Equivalent to:
+		 * <Code>Actions.moveToElement(onElement).click()</code>
+		 * 
+		 * @param target Element to click
+		 * @return A self reference
+		 */
+		public Action click(WebElement target) {
+			try {
+				action.click(highlight(target)).build().perform();
+				log(Status.INFO, "Successfully clicked on " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to clicked on " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Clicks (without releasing) at the current mouse location.
+		 * 
+		 * @return A self reference
+		 */
+		public Action clickAndHold() {
+			try {
+				action.clickAndHold().build().perform();
+				log(Status.INFO, "Successfully clicked and held");
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to click and held", e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Performs a context-click at the current mouse location.
+		 * 
+		 * @return A self reference
+		 */
+		public Action contextClick() {
+			try {
+				action.contextClick().build().perform();
+				log(Status.INFO, "Successfully context-clicked");
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to context-click", e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * Performs a context-click at middle of the given element. First performs a
+		 * mouseMove to the location of the element.
+		 * 
+		 * @param target Element to move to
+		 * @return A self reference
+		 */
+		public Action contextClick(By target) {
+			try {
+				action.contextClick(get(target)).build().perform();
+				log(Status.INFO, "Successfully context-clicked at " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to context-click at " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Performs a context-click at middle of the given element. First performs a
+		 * mouseMove to the location of the element.
+		 * 
+		 * @param target Element to move to
+		 * @return A self reference
+		 */
+		public Action contextClick(WebElement target) {
+			try {
+				action.contextClick(highlight(target)).build().perform();
+				log(Status.INFO, "Successfully context-clicked at " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to context-click at " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Performs a double-click at the current mouse location.
+		 * 
+		 * @return A self reference
+		 */
+		public Action doubleClick() {
+			try {
+				action.doubleClick().build().perform();
+				log(Status.INFO, "Successfully double clicked");
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to double click", e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * Performs a double-click at middle of the given element. Equivalent to:
+		 * <code>Action.moveToElement(element).doubleClick()</code>
+		 * 
+		 * @param target Element to move to
+		 * @return A self reference
+		 */
+		public Action doubleClick(By target) {
+			try {
+				action.doubleClick(get(target)).build().perform();
+				log(Status.INFO, "Successfully double clicked on " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to double click on " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Performs a double-click at middle of the given element. Equivalent to:
+		 * <code>Action.moveToElement(element).doubleClick()</code>
+		 * 
+		 * @param target Element to move to
+		 * @return A self reference
+		 */
+		public Action doubleClick(WebElement target) {
+			try {
+				action.doubleClick(highlight(target)).build().perform();
+				log(Status.INFO, "Successfully double clicked on " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to double click on " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * A convenience method that performs click-and-hold at the location of the
+		 * source element, moves to the location of the target element, then releases
+		 * the mouse.
+		 * 
+		 * @param source element to emulate mouse-button down at
+		 * @param target element to move to and release the mouse at
+		 * @return A self reference
+		 */
+		public Action dragAndDrop(By source, By target) {
+			try {
+				action.dragAndDrop(get(source), get(target)).build().perform();
+				log(Status.INFO, "Successfully dragged " + source.toString() + " and dropped at " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to drag " + source.toString() + " and drop at " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * A convenience method that performs click-and-hold at the location of the
+		 * source element, moves to the location of the target element, then releases
+		 * the mouse.
+		 * 
+		 * @param source element to emulate mouse-button down at
+		 * @param target element to move to and release the mouse at
+		 * @return A self reference
+		 */
+		public Action dragAndDrop(WebElement source, WebElement target) {
+			try {
+				action.dragAndDrop(highlight(source), highlight(target)).build().perform();
+				log(Status.INFO, "Successfully dragged " + source.toString() + " and dropped at " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to drag " + source.toString() + " and drop at " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * A convenience method that performs click-and-hold at the location of the
+		 * source element, moves by a given offset, then releases the mouse
+		 * 
+		 * @param source  element to emulate button down at
+		 * @param xOffset horizontal move offset
+		 * @param yOffset vertical move offset
+		 * @return A self reference
+		 */
+		public Action dragAndDropBy(By source, int xOffset, int yOffset) {
+			try {
+				action.dragAndDropBy(get(source), xOffset, yOffset).build().perform();
+				log(Status.INFO, "Successfully dragged " + source.toString() + " and dropped by offset (" + xOffset
+						+ "," + yOffset + ")");
+			} catch (Exception e) {
+				log(Status.INFO,
+						"Failed to drag " + source.toString() + " and drop by offset (" + xOffset + "," + yOffset + ")",
+						e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * A convenience method that performs click-and-hold at the location of the
+		 * source element, moves by a given offset, then releases the mouse
+		 * 
+		 * @param source  element to emulate button down at
+		 * @param xOffset horizontal move offset
+		 * @param yOffset vertical move offset
+		 * @return A self reference
+		 */
+		public Action dragAndDropBy(WebElement source, int xOffset, int yOffset) {
+			try {
+				action.dragAndDropBy(highlight(source), xOffset, yOffset).build().perform();
+				log(Status.INFO, "Successfully dragged " + source.toString() + " and dropped by offset (" + xOffset
+						+ "," + yOffset + ")");
+			} catch (Exception e) {
+				log(Status.INFO,
+						"Failed to drag " + source.toString() + " and drop by offset (" + xOffset + "," + yOffset + ")",
+						e);
+				return null;
+			}
+			return this;
+		}
+		
+		
+		/**
+		 * Performs a modifier key press after focusing on an element. Equivalent to:
+		 * Actions.click(element).sendKeys(theKey);
+		 * 
+		 * @param target WebElement to perform the action
+		 * @param key    Either Keys.SHIFT, Keys.ALT or Keys.CONTROL. If the provided
+		 *               key is none of those, IllegalArgumentException is thrown.
+		 * @return A self reference
+		 */
+		public Action keyDown(By target, CharSequence key) {
+			try {
+				action.keyDown(get(target), key).build().perform();
+				log(Status.INFO, "Successfully pressed " + key.toString() + " on " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to press " + key.toString() + " on " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Performs a modifier key press. Does not release the modifier key - subsequent
+		 * interactions may assume it's kept pressed. Note that the modifier key is
+		 * never released implicitly - either keyUp(theKey) or sendKeys(Keys.NULL) must
+		 * be called to release the modifier.
+		 * 
+		 * @param key Either Keys.SHIFT, Keys.ALT or Keys.CONTROL. If the provided key
+		 *            is none of those, IllegalArgumentException is thrown.
+		 * @return A self reference
+		 */
+		public Action keyDown(CharSequence key) {
+			try {
+				action.keyDown(key).build().perform();
+				log(Status.INFO, "Successfully pressed " + key.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Successfully pressed " + key.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Performs a modifier key press after focusing on an element. Equivalent to:
+		 * Actions.click(element).sendKeys(theKey);
+		 * 
+		 * @param target WebElement to perform the action
+		 * @param key    Either Keys.SHIFT, Keys.ALT or Keys.CONTROL. If the provided
+		 *               key is none of those, IllegalArgumentException is thrown.
+		 * @return A self reference
+		 */
+		public Action keyDown(WebElement target, CharSequence key) {
+			try {
+				action.keyDown(target, key).build().perform();
+				log(Status.INFO, "Successfully pressed " + key.toString() + " on " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to press " + key.toString() + " on " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * Performs a modifier key release after focusing on an element. Equivalent to:
+		 * Actions.click(element).sendKeys(theKey);
+		 * 
+		 * @param target WebElement to perform the action on
+		 * @param key    Either Keys.SHIFT, Keys.ALT or Keys.CONTROL.
+		 * @return A self reference
+		 */
+		public Action keyUp(By target, CharSequence key) {
+			try {
+				action.keyUp(get(target), key).build().perform();
+				log(Status.INFO, "Successfully released " + key.toString() + " from " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to release " + key.toString() + " from " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Performs a modifier key release. Releasing a non-depressed modifier key will
+		 * yield undefined behavior.
+		 * 
+		 * @param key Either Keys.SHIFT, Keys.ALT or Keys.CONTROL.
+		 * @return A self reference
+		 */
+		public Action keyUp(CharSequence key) {
+			try {
+				action.keyUp(key).build().perform();
+				log(Status.INFO, "Successfully released " + key.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to release " + key.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Performs a modifier key release after focusing on an element. Equivalent to:
+		 * Actions.click(element).sendKeys(theKey);
+		 * 
+		 * @param target WebElement to perform the action on
+		 * @param key    Either Keys.SHIFT, Keys.ALT or Keys.CONTROL.
+		 * @return A self reference
+		 */
+		public Action keyUp(WebElement target, CharSequence key) {
+			try {
+				action.keyUp(highlight(target), key).build().perform();
+				log(Status.INFO, "Successfully released " + key.toString() + " from " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to release " + key.toString() + " from " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Moves the mouse from its current position (or 0,0) by the given offset. If
+		 * the coordinates provided are outside the viewport (the mouse will end up
+		 * outside the browser window) then the viewport is scrolled to match.
+		 * 
+		 * @param xOffset horizontal move offset. A negative value means moving the
+		 *                mouse left.
+		 * @param yOffset vertical move offset. A negative value means moving the mouse
+		 *                up.
+		 * @return A self reference
+		 */
+		public Action moveByOffset(int xOffset, int yOffset) {
+			try {
+				action.moveByOffset(xOffset, yOffset).build().perform();
+				log(Status.INFO, "Successfully moved by (" + xOffset + "," + yOffset + ")");
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to move by (" + xOffset + "," + yOffset + ")", e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * Moves the mouse to the middle of the element. The element is scrolled into
+		 * view and its location is calculated using getBoundingClientRect.
+		 * 
+		 * @param target element to move to.
+		 * @return A self reference
+		 */
+		public Action moveToElement(By target) {
+			try {
+				action.moveToElement(get(target)).build().perform();
+				log(Status.INFO, "Successfully moved to " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to move to " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * Moves the mouse to an offset from the top-left corner of the element. The
+		 * element is scrolled into view and its location is calculated using
+		 * getBoundingClientRect.
+		 * 
+		 * @param target  element to move to.
+		 * @param xOffset horizontal move offset from the top-left corner. A negative
+		 *                value means moving the mouse left.
+		 * @param yOffset vertical move offset from the top-left corner. A negative
+		 *                value means moving the mouse up.
+		 * @return A self reference
+		 */
+		public Action moveToElement(By target, int xOffset, int yOffset) {
+			try {
+				action.moveToElement(get(target), xOffset, yOffset).build().perform();
+				log(Status.INFO, "Successfully moved to " + target.toString() + " with offset (" + xOffset + ","
+						+ yOffset + ")");
+			} catch (Exception e) {
+				log(Status.INFO,
+						"Failed to move to " + target.toString() + " with offset (" + xOffset + "," + yOffset + ")", e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Moves the mouse to the middle of the element. The element is scrolled into
+		 * view and its location is calculated using getBoundingClientRect.
+		 * 
+		 * @param target element to move to.
+		 * @return A self reference
+		 */
+		public Action moveToElement(WebElement target) {
+			try {
+				action.moveToElement(highlight(target)).build().perform();
+				log(Status.INFO, "Successfully moved to " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to move to " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Moves the mouse to an offset from the top-left corner of the element. The
+		 * element is scrolled into view and its location is calculated using
+		 * getBoundingClientRect.
+		 * 
+		 * @param target  element to move to.
+		 * @param xOffset horizontal move offset from the top-left corner. A negative
+		 *                value means moving the mouse left.
+		 * @param yOffset vertical move offset from the top-left corner. A negative
+		 *                value means moving the mouse up.
+		 * @return A self reference
+		 */
+		public Action moveToElement(WebElement target, int xOffset, int yOffset) {
+			try {
+				action.moveToElement(highlight(target), xOffset, yOffset).build().perform();
+				log(Status.INFO, "Successfully moved to " + target.toString() + " with offset (" + xOffset + ","
+						+ yOffset + ")");
+			} catch (Exception e) {
+				log(Status.INFO,
+						"Failed to move to " + target.toString() + " with offset (" + xOffset + "," + yOffset + ")", e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * @param duration
+		 * @return A self reference
+		 */
+		public Action pause(Duration duration) {
+			try {
+				action.pause(duration).build().perform();
+				log(Status.INFO, "Successfully paused for " + duration.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to pause for " + duration.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * @param pause
+		 * @return A self reference
+		 */
+		public Action pause(long pause) {
+			try {
+				action.pause(pause).build().perform();
+				log(Status.INFO, "Successfully paused for " + Long.toString(pause));
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to pause for " + Long.toString(pause), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Releases the depressed left mouse button at the current mouse location.
+		 * 
+		 * @return A self reference
+		 */
+		public Action release() {
+			try {
+				action.release().build().perform();
+				log(Status.INFO, "Successfully released mouse click");
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to release mouse click", e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * Releases the depressed left mouse button, in the middle of the given element.
+		 * This is equivalent to:
+		 * <code>Actions.moveToElement(onElement).release()</code>. Invoking this
+		 * action, without invoking <code>clickAndHold()</code> first will result in
+		 * undefined behavior.
+		 * 
+		 * @param target Element to release the mouse button above.
+		 * @return A self reference
+		 */
+		public Action release(By target) {
+			try {
+				action.release(get(target)).build().perform();
+				log(Status.INFO, "Successfully released mouse click from " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to release mouse click from " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Releases the depressed left mouse button, in the middle of the given element.
+		 * This is equivalent to:
+		 * <code>Actions.moveToElement(onElement).release()</code>. Invoking this
+		 * action, without invoking <code>clickAndHold()</code> first will result in
+		 * undefined behavior.
+		 * 
+		 * @param target Element to release the mouse button above.
+		 * @return A self reference
+		 */
+		public Action release(WebElement target) {
+			try {
+				action.release(highlight(target)).build().perform();
+				log(Status.INFO, "Successfully released mouse click from " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to release mouse click from " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+		
+		/**
+		 * Equivalent to calling: Actions.click(element).sendKeys(keysToSend). This
+		 * method is different from {@link #sendKeys(WebElement, CharSequence...)} - see
+		 * {@link #sendKeys(CharSequence...)} for details how.
+		 * 
+		 * @param target element to focus on.
+		 * @param keys   The keys
+		 * @return A self reference
+		 */
+		public Action sendKeys(By target, CharSequence... keys) {
+			try {
+				action.sendKeys(get(target), keys).build().perform();
+				log(Status.INFO, "Successfully typed " + keys.toString() + " into " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to typed " + keys.toString() + " into " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Sends keys to the active element. This differs from calling
+		 * WebElement.sendKeys(CharSequence...) on the active element in two ways:
+		 * <li>The modifier keys included in this call are not released.
+		 * <li>There is no attempt to re-focus the element - so sendKeys(Keys.TAB) for
+		 * switching elements should work.
+		 * 
+		 * @param keys The keys
+		 * @return A self reference
+		 */
+		public Action sendKeys(CharSequence... keys) {
+			try {
+				action.sendKeys(keys).build().perform();
+				log(Status.INFO, "Successfully typed " + keys.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to type " + keys.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
+		/**
+		 * Equivalent to calling: Actions.click(element).sendKeys(keysToSend). This
+		 * method is different from {@link #sendKeys(WebElement, CharSequence...)} - see
+		 * {@link #sendKeys(CharSequence...)} for details how.
+		 * 
+		 * @param target element to focus on.
+		 * @param keys   The keys
+		 * @return A self reference
+		 */
+		public Action sendKeys(WebElement target, CharSequence... keys) {
+			try {
+				action.sendKeys(highlight(target), keys).build().perform();
+				log(Status.INFO, "Successfully typed " + keys.toString() + " into " + target.toString());
+			} catch (Exception e) {
+				log(Status.INFO, "Failed to typed " + keys.toString() + " into " + target.toString(), e);
+				return null;
+			}
+			return this;
+		}
+
 	}
 }
