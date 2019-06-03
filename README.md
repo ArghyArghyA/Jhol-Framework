@@ -11,6 +11,11 @@ Clone the project to your local machine and import the project to your eclipse a
 You have to have Java and eclipse installed in your machine. 
 In order to work with windows based application automation .Net Framework 4.1 or higher must be installed
 
+If you are using AutoIt related methods then register the below mentioned DLL files
+* /Framework/src/main/resources/AutoItX3_x64.dll
+* /Framework/src/main/resources/AutoItX3.dll
+	
+
 ## Running the tests
 
 Explain how to run the automated tests for this system
