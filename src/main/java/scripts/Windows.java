@@ -1,6 +1,9 @@
 package scripts;
 
 import org.openqa.selenium.By;
+
+import com.aventstack.extentreports.Status;
+
 import managers.DriverUtil;
 import managers.Reporter;
 import pageObjects.SaveAs;
@@ -12,8 +15,13 @@ public class Windows extends DriverUtil {
 	}
 
 	public boolean notepad() {
-		return switchToWindow("Notepad", "ClassName") && wSendkeys(By.name("Text Editor"), "test")
-				&& wClick(By.name("Close")) && wClick(By.name("Don't Save")) && stopDesktopAutomation();
+		boolean proceed = switchToWindow("Notepad", "ClassName") && wSendkeys(By.name("Text Editor"), "test")
+				&& wClick(By.name("Close")) && wClick(By.name("Don't Save")) && stopWiniumServer();
+		if (proceed)
+			log(Status.PASS, "Successfully processed Notepad");
+		else
+			log(Status.FAIL, "Failed to process Notepad");
+		return proceed;
 	}
 
 	public boolean saveSearchResult() {
@@ -24,7 +32,7 @@ public class Windows extends DriverUtil {
 				&& wClick(SaveAs.MoreTools) && wClick(SaveAs.SavePageAs);
 		return proceed && switchToWindow("Save As", "Name", false, true)
 				&& wSendkeys(SaveAs.Address, System.getProperty("user.dir") + "/src/test/resources/Results/Dowloads")
-				&& wSendkeys(SaveAs.FileName, get("Search Keyword")) && wClick(SaveAs.Save) && stopDesktopAutomation();
+				&& wSendkeys(SaveAs.FileName, get("Search Keyword")) && wClick(SaveAs.Save) && stopWiniumServer();
 	}
 
 }

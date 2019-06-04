@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 
 import org.json.JSONObject;
 import org.openqa.selenium.By;
@@ -27,6 +28,20 @@ public class Test {
 
 	public static WebElement expandRootElement(WebDriver driver, WebElement ele) {
 		return (WebElement) ((JavascriptExecutor) driver).executeScript("return arguments[0].shadowRoot", ele);
+	}
+
+	public void A() {
+		StackTraceElement[] traces = Thread.currentThread().getStackTrace();
+		for (StackTraceElement trace : traces) {
+			System.out.println(trace.getClassName());
+			System.out.println(trace.toString().split("\\(")[1].replace(")", ""));
+			System.out.println(trace.toString() + "random text");
+		}
+	}
+
+	public void B() {
+		System.out.println(this.getClass().getName());
+//		A();
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -112,16 +127,25 @@ public class Test {
 		 * 
 		 * // driver.quit();
 		 */
-		File jacobDLL = new File("src/main/resources/jacob-1.19/jacob-1.19-x64.dll");
-		System.setProperty(LibraryLoader.JACOB_DLL_PATH, jacobDLL.getAbsolutePath());
-		AutoItX autoIt = new AutoItX();
-		Runtime.getRuntime().exec("notepad");
-		autoIt.winActivate("Untitled - Notepad");
-		autoIt.winWaitActive("Untitled - Notepad");
-		autoIt.send("test");
-		autoIt.winClose("Untitled - Notepad");
-		autoIt.winWaitActive("Notepad");
-		autoIt.send("!n");
+
+		/*
+		 * File jacobDLL = new File("src/main/resources/jacob-1.19/jacob-1.19-x64.dll");
+		 * System.setProperty(LibraryLoader.JACOB_DLL_PATH, jacobDLL.getAbsolutePath());
+		 * AutoItX autoIt = new AutoItX(); Runtime.getRuntime().exec("notepad");
+		 * autoIt.winActivate("Untitled - Notepad");
+		 * autoIt.winWaitActive("Untitled - Notepad"); autoIt.send("test");
+		 * autoIt.winClose("Untitled - Notepad"); autoIt.winWaitActive("Notepad");
+		 * autoIt.send("!n");
+		 */
+
+		/*
+		 * Test t = new Test(); t.B();
+		 */
+		APIUtil ap = new APIUtil();
+		ap.setURI("https://www.google.com/?q='test'");
+		ap.setParameter(new HashMap<String, String>() {{put("q", "Test");}});
+//		ap.setAuthentication(new Basic("ArghyArghya", "f8cda53181fd92a7e12548fd4a6541c11b47f00b"));
+		ap.GET();
 
 	}
 }

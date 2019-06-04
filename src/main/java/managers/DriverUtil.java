@@ -20,7 +20,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
@@ -33,6 +37,8 @@ import com.aventstack.extentreports.Status;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import dataProviders.Configurations;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import managers.utilities.AutoItX;
 
 /**
  * @author Alpha Romeo
@@ -40,22 +46,34 @@ import dataProviders.Configurations;
  */
 public class DriverUtil {
 	protected static Action act;
-	protected static HashMap<String, String> dictionary = new HashMap<String, String>();
+	static HashMap<String, String> dictionary = new HashMap<String, String>();
 	protected static Reporter reporter;
 	private static String webElementStyle = "";
 	protected static WebDriverWait shortWait;
 	protected static WebDriverWait longWait;
-	protected static WebDriver driver;
+	static WebDriver driver;
 	private static WebElement webElement;
-	private static WebElement windowElement;
-	protected static WiniumDriver windowsDriver;
+	private static WebElement wElement;
+	static WiniumDriver wDriver;
+	static AutoItX aDriver;
 
 	public DriverUtil(Reporter reportManager) {
 		super();
 		DriverUtil.reporter = reportManager;
-		DriverUtil.act = new Action(driver);
-		DriverUtil.shortWait = new WebDriverWait(driver, Configurations.ShortTimeOut);
-		DriverUtil.longWait = new WebDriverWait(driver, Configurations.LongTimeOut);
+	}
+
+	/**
+	 * Appends to already existing key, value pair. If the pair associated with the
+	 * given key does not exist, a new key, value pair is generated
+	 * 
+	 * @param key   key of the key, value pair
+	 * @param value Value to append to existing one
+	 */
+	protected void append(String key, String value) {
+		if (dictionary.get(key) != null)
+			dictionary.put(key, dictionary.get(key) + value);
+		else
+			dictionary.put(key, value);
 	}
 
 	/**
@@ -477,16 +495,38 @@ public class DriverUtil {
 	 * @return string value for the key
 	 */
 	protected String get(String keyWord) {
-		return dictionary.get(keyWord).trim();
+		try {
+			return dictionary.get(keyWord).trim();
+		} catch (Exception e) {
+			return null;
+		}
 	}
-	
+
 	/**
 	 * @param keyWord keyword to get value for
-	 * @param regex regular expression to split the value
+	 * @param regex   regular expression to split the value
 	 * @return array of strings
 	 */
 	protected String[] get(String keyWord, String regex) {
-		return dictionary.get(keyWord).trim().split(regex);
+		try {
+			return dictionary.get(keyWord).trim().split(regex);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * @param keyWord keyword to get value for
+	 * @param regex   regular expression to split the value
+	 * @return string at the given index after splitting the data, retrieved by the
+	 *         keyword, by the given regex.
+	 */
+	protected String get(String keyWord, String regex, int index) {
+		try {
+			return dictionary.get(keyWord).trim().split(regex)[index].trim();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -767,6 +807,39 @@ public class DriverUtil {
 	}
 
 	/**
+	 * launches browser specified in the data-sheet
+	 * 
+	 * @return true if success, false otherwise
+	 */
+	protected boolean launchBrowser() {
+		String browser = dictionary.get("browser");
+		if (browser.equalsIgnoreCase("chrome")) {
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver(Configurations.chromeOptions);
+		} else if (browser.equalsIgnoreCase("firefox")) {
+			WebDriverManager.firefoxdriver().setup();
+			driver = new FirefoxDriver(Configurations.firefoxOptions);
+		} else if (browser.equalsIgnoreCase("ie")) {
+			WebDriverManager.iedriver().setup();
+			driver = new InternetExplorerDriver(Configurations.ieOptions);
+		} else if (browser.equalsIgnoreCase("safari")) {
+			driver = new SafariDriver(Configurations.safariOptions);
+		} else {
+			log(Status.FATAL, "Unimplemented browser");
+			return false;
+		}
+		driver.manage().deleteAllCookies();
+		driver.get(Configurations.URL);
+		driver.manage().window().maximize();
+
+		log(Status.INFO, "Successfully opened " + browser);
+		DriverUtil.act = new Action(driver);
+		DriverUtil.shortWait = new WebDriverWait(driver, Configurations.ShortTimeOut);
+		DriverUtil.longWait = new WebDriverWait(driver, Configurations.LongTimeOut);
+		return true;
+	}
+
+	/**
 	 * Wrapper for logging statements. Logs both in console and Reporter. However
 	 * depends on the Configurations.minimumLogLevel
 	 * 
@@ -820,12 +893,22 @@ public class DriverUtil {
 		default:
 			break;
 		}
+		String reportTrace = "", consoleTrace = "";
+		StackTraceElement[] traces = Thread.currentThread().getStackTrace();
+		for (StackTraceElement trace : traces) {
+			if (!(trace.getClassName().equalsIgnoreCase(DriverUtil.class.getName())
+					|| trace.getClassName().equalsIgnoreCase(Thread.class.getName()))) {
+				consoleTrace = trace.toString() + ": " + stepName;
+				reportTrace = trace.getClassName() + ":" + trace.getLineNumber() + ": " + stepName;
+				break;
+			}
+		}
 		if (e != null) {
 			e.printStackTrace();
-			reporter.reportEvent(status, stepName, ExceptionUtils.getFullStackTrace(e));
+			reporter.reportEvent(status, reportTrace, ExceptionUtils.getFullStackTrace(e));
 		} else
-			reporter.reportEvent(status, stepName);
-		System.out.println(stepName);
+			reporter.reportEvent(status, reportTrace);
+		System.out.println(consoleTrace);
 	}
 
 	/**
@@ -845,6 +928,17 @@ public class DriverUtil {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Puts the value at target element. If it already has a value the new value
+	 * replaces the old value
+	 * 
+	 * @param key   keyword for the value
+	 * @param value value that needs to be put
+	 */
+	protected void put(String key, String value) {
+		dictionary.put(key, value);
 	}
 
 	/**
@@ -1252,30 +1346,12 @@ public class DriverUtil {
 	 */
 	protected boolean selectComboByIndex(By by, int index, boolean waitForPageLoad, boolean explicitWait) {
 		try {
-			if (waitForPageLoad)
-				waitForPageToLoad();
-			WebElement ele;
-			if (explicitWait) {
-				ele = shortWait.until(ExpectedConditions.elementToBeClickable(by));
-			} else {
-				ele = driver.findElement(by);
-			}
-			scrollToView(ele);
-			highlight(ele);
-			ele.click();
-			for (int i = 0; i < index; i++) {
-				ele.sendKeys(Keys.ARROW_DOWN);
-				waitForPageToLoad();
-			}
-			String text = ele.getAttribute("value");
-			ele.sendKeys(Keys.TAB);
-			log(Status.INFO, "Successfully selected " + text + " from " + by.toString());
+			By Options = By.xpath(null);// Identifier to capture all the option elements;
+			return click(by, waitForPageLoad, explicitWait) && waitForPageLoad && click(getAll(Options).get(index));
 		} catch (Exception e) {
 			log(Status.INFO, "Unable to select " + Integer.toString(index) + " entry from " + by.toString(), e);
 			return false;
 		}
-		return true;
-
 	}
 
 	/**
@@ -1291,21 +1367,12 @@ public class DriverUtil {
 	 */
 	protected boolean selectComboByIndex(WebElement ele, int index) {
 		try {
-			scrollToView(ele);
-			highlight(ele);
-			ele.click();
-			for (int i = 0; i < index; i++) {
-				ele.sendKeys(Keys.ARROW_DOWN);
-				waitForPageToLoad();
-			}
-			String text = ele.getAttribute("value");
-			ele.sendKeys(Keys.TAB);
-			log(Status.INFO, "Successfully selected " + text + " from " + ele.toString());
+			By Options = By.xpath(null);// Identifier to capture all the option elements;
+			return click(ele) && waitForPageToLoad() && click(getAll(Options).get(index));
 		} catch (Exception e) {
 			log(Status.INFO, "Unable to select " + Integer.toString(index) + " entry from " + ele.toString(), e);
 			return false;
 		}
-		return true;
 
 	}
 
@@ -1553,11 +1620,11 @@ public class DriverUtil {
 	 * 
 	 * @return <code>true</code> if successful, <code>false</code> otherwise
 	 */
-	private boolean startDesktopAutomation() {
+	static boolean startWiniumServer() {
 		try {
 			DesktopOptions options = new DesktopOptions();
 			options.setDebugConnectToRunningApp(true);
-			windowsDriver = new WiniumDriver(new URL("http://localhost:9999"), options);
+			wDriver = new WiniumDriver(new URL("http://localhost:9999"), options);
 			log(Status.INFO, "Successfully started desktop automation server");
 		} catch (WebDriverException e) {
 			try {
@@ -1565,7 +1632,7 @@ public class DriverUtil {
 				Thread.sleep(2000);
 				DesktopOptions options = new DesktopOptions();
 				options.setDebugConnectToRunningApp(true);
-				windowsDriver = new WiniumDriver(new URL("http://localhost:9999"), options);
+				wDriver = new WiniumDriver(new URL("http://localhost:9999"), options);
 				log(Status.INFO, "Successfully started desktop automation server");
 			} catch (MalformedURLException e1) {
 				e.printStackTrace();
@@ -1588,11 +1655,11 @@ public class DriverUtil {
 		return true;
 	}
 
-	protected boolean stopDesktopAutomation() {
+	protected boolean stopWiniumServer() {
 		try {
-			windowsDriver.quit();
-			windowsDriver = null;
-			windowElement = null;
+			wDriver.quit();
+			wDriver = null;
+			wElement = null;
 			Runtime.getRuntime().exec("taskkill /F /IM Winium.Desktop.Driver.exe");
 			log(Status.INFO, "Successfully stopped desktop Automation Server");
 		} catch (Exception e) {
@@ -1794,10 +1861,10 @@ public class DriverUtil {
 				else
 					xPath = "/*[@" + attributeName + " = '" + attributeValue + "']";
 			}
-			if (windowsDriver == null)
-				startDesktopAutomation();
-			windowElement = windowsDriver.findElement(By.xpath(xPath));
-			bringToFront(windowElement);
+			if (wDriver == null)
+				startWiniumServer();
+			wElement = wDriver.findElement(By.xpath(xPath));
+			bringToFront(wElement);
 			log(Status.INFO, "Succesfully switched to window with " + attributeName + " = " + attributeValue);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1906,7 +1973,7 @@ public class DriverUtil {
 	 */
 	protected boolean wClick(By by) {
 		try {
-			WebElement ele = windowElement.findElement(by);
+			WebElement ele = wElement.findElement(by);
 			bringToFront(ele);
 			ele.click();
 			log(Status.INFO, "Successfully clicked on " + by.toString());
@@ -1936,7 +2003,7 @@ public class DriverUtil {
 	 */
 	protected boolean wSendkeys(By by, String string) {
 		try {
-			WebElement ele = windowElement.findElement(by);
+			WebElement ele = wElement.findElement(by);
 			bringToFront(ele);
 			ele.sendKeys(string);
 			log(Status.INFO, "Successfully typed " + string + " into " + by.toString());
@@ -1972,7 +2039,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * Clicks in the middle of the given element. Equivalent to:
 		 * <Code>Actions.moveToElement(onElement).click()</code>
@@ -2040,7 +2107,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * Performs a context-click at middle of the given element. First performs a
 		 * mouseMove to the location of the element.
@@ -2092,7 +2159,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * Performs a double-click at middle of the given element. Equivalent to:
 		 * <code>Action.moveToElement(element).doubleClick()</code>
@@ -2128,7 +2195,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * A convenience method that performs click-and-hold at the location of the
 		 * source element, moves to the location of the target element, then releases
@@ -2168,7 +2235,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * A convenience method that performs click-and-hold at the location of the
 		 * source element, moves by a given offset, then releases the mouse
@@ -2214,8 +2281,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
-		
+
 		/**
 		 * Performs a modifier key press after focusing on an element. Equivalent to:
 		 * Actions.click(element).sendKeys(theKey);
@@ -2276,7 +2342,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * Performs a modifier key release after focusing on an element. Equivalent to:
 		 * Actions.click(element).sendKeys(theKey);
@@ -2354,7 +2420,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * Moves the mouse to the middle of the element. The element is scrolled into
 		 * view and its location is calculated using getBoundingClientRect.
@@ -2372,7 +2438,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * Moves the mouse to an offset from the top-left corner of the element. The
 		 * element is scrolled into view and its location is calculated using
@@ -2486,7 +2552,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * Releases the depressed left mouse button, in the middle of the given element.
 		 * This is equivalent to:
@@ -2528,7 +2594,7 @@ public class DriverUtil {
 			}
 			return this;
 		}
-		
+
 		/**
 		 * Equivalent to calling: Actions.click(element).sendKeys(keysToSend). This
 		 * method is different from {@link #sendKeys(WebElement, CharSequence...)} - see
@@ -2589,6 +2655,5 @@ public class DriverUtil {
 			}
 			return this;
 		}
-
 	}
 }

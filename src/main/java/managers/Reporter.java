@@ -74,28 +74,6 @@ public final class Reporter {
 
 		DriverUtil.dictionary.clear();
 		DriverUtil.dictionary.putAll(dictionary);
-
-		String browser = dictionary.get("browser");
-		if (browser.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
-			DriverUtil.driver = new ChromeDriver(Configurations.chromeOptions);
-		} else if (browser.equalsIgnoreCase("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			DriverUtil.driver = new FirefoxDriver(Configurations.firefoxOptions);
-		} else if (browser.equalsIgnoreCase("ie")) {
-			WebDriverManager.iedriver().setup();
-			DriverUtil.driver = new InternetExplorerDriver(Configurations.ieOptions);
-		} else if (browser.equalsIgnoreCase("safari")) {
-			DriverUtil.driver = new SafariDriver(Configurations.safariOptions);
-		} else {
-			throw new Exception("UnImplemented browser");
-		}
-		DriverUtil.driver.manage().deleteAllCookies();
-		DriverUtil.driver.get(Configurations.URL);
-		DriverUtil.driver.manage().window().maximize();
-
-		reportEvent(Status.INFO, "Successfully opened " + browser);
-		System.out.println("Successfully opened " + browser);
 	}
 
 	public void endTest() {
@@ -135,10 +113,10 @@ public final class Reporter {
 		report.flush();
 
 		try {
-			if (DriverUtil.windowsDriver!=null)
+			if (DriverUtil.wDriver!=null)
 			{
-				DriverUtil.windowsDriver.quit();
-				DriverUtil.windowsDriver = null;
+				DriverUtil.wDriver.quit();
+				DriverUtil.wDriver = null;
 			}
 			String command = "taskkill /F /IM Winium.Desktop.Driver.exe";
 			Runtime.getRuntime().exec(command);
@@ -212,8 +190,16 @@ public final class Reporter {
 	private void takeScreenshot() {
 		counter++;
 		try {
-			TakesScreenshot screenshot = (TakesScreenshot) DriverUtil.driver;
-			File file = screenshot.getScreenshotAs(OutputType.FILE);
+			File file;
+			try {
+				TakesScreenshot screenshot = (TakesScreenshot) DriverUtil.driver;
+				file = screenshot.getScreenshotAs(OutputType.FILE);
+			} catch (NullPointerException e1) {
+				if (DriverUtil.wDriver == null)
+					DriverUtil.startWiniumServer();
+				TakesScreenshot screenshot = (TakesScreenshot) DriverUtil.wDriver;
+				file = screenshot.getScreenshotAs(OutputType.FILE);
+			}
 			String imagePath = "./src/test/resources/Results/Screenshot/" + timeStamp + "/" + Reporter.testName + "/"
 					+ counter + ".png";
 			File localFile = new File(imagePath);
@@ -225,7 +211,7 @@ public final class Reporter {
 			}
 		} catch (WebDriverException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
 }

@@ -16,14 +16,14 @@ public class Search extends DriverUtil {
 	public boolean search() {
 		boolean proceed = true;
 		try {
-			proceed = ((dictionary.get("Search Keyword") != null)
-					? sendkeys(Google.SearchBox, dictionary.get("Search Keyword"))
+			proceed = launchBrowser() && ((get("Search Keyword") != null)
+					? sendkeys(Google.SearchBox, get("Search Keyword"))
 					: sendkeys(Google.SearchBox));
 			proceed = proceed && click(Google.GoogleSearch);
 			waitForPageToLoad();
 			if (proceed) {
-				dictionary.put(OutPutFields.FirstResult.columnHeader, getText(Google.SearchResultText));
-				dictionary.put(OutPutFields.URL.columnHeader, getAttribute(Google.searchResultURL, "href"));
+				put(OutPutFields.FirstResult.columnHeader, getText(Google.SearchResultText));
+				put(OutPutFields.URL.columnHeader, getAttribute(Google.searchResultURL, "href"));
 
 				log(Status.PASS, "Successfully Searched");
 			} else {
@@ -43,7 +43,7 @@ public class Search extends DriverUtil {
 		try {
 			proceed = click(Google.searchResultURL);
 			waitForPageToLoad();
-			proceed = proceed && assertTitle(dictionary.get("Search Keyword"));
+			proceed = proceed && assertTitle(get("Search Keyword"));
 			if (proceed) {
 				log(Status.PASS, "Successfully opened first search result");
 			} else {
