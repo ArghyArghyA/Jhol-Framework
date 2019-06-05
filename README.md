@@ -7,10 +7,26 @@ This framework is intended/focused for end to end web automation testing. Howeve
 Clone the project to your local machine and import the project to your eclipse as a Maven project. You are good to go.
 
 <details>
-	<summary>Title 1</summary>
-    <p>Content 1 Content 1 Content 1 Content 1 Content 1</p>
+	<summary><b>managers.APIUtil</b> <br>this class has all the methods to carry out API/HTTP request related work</br></summary>
+    <li>under development</li>
+    <p></p>
 </details>
-	
+<details>
+	<summary><b>managers.DataManager</b> <br>this class has all the methods to read and write our data-sheet</br></summary>
+    <ul>
+    	<li><b>createFeatureFile(List&ltHashMap&ltString, String&gt&gt)</b> - creates a feature file in "src/test/resources/FunctionalTests" location from the data provided in the excel</li>
+    	<li><b>readArrayList&ltString&gt)</b> - reads entire excel sheet with given filter. Filter is passed as arguments
+    		<ul>
+    			<li><i>Nothing</i> - no arguments is passed if we want to run all the tests marked as "Yes" in the Execute column in our datasheet</li>
+    			<li><i>ALL</i> - "ALL" is passed if we want to run all the tests irrespective of the value in the Execute column
+    			<li>space separated <i>TestCaseID</i> - "2 3" is passed if we want to run only 2nd and 3rd test case assuming we have 2 and 3 in our TestCaseID column</li>
+    		</ul>
+    	</li>
+    	<li><b>write(HashMap&ltString, String&gt)</b> -writes all the test result back to data-sheet. If we need to update some values other than Status(Passed, Failed etc) we need to mention the column name in settings.Configurations file in appropriate place as well as during execution in the script we need to capture the value and pass the same as a key, value pair where key name must be same as column name as below: <br>
+    	<code>put(OutPutFields.FirstResult.columnHeader, getText(Google.SearchResultText));</code>
+    	</li>
+    </ul>
+</details>
 
 ### Prerequisites
 
@@ -52,9 +68,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Arghya Roy**  - [ArghyArghyA](https://github.com/ArghyArghyA)
 
 ## License
 
