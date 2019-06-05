@@ -17,8 +17,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import dataProviders.Configurations;
-import dataProviders.Configurations.OutPutFields;
+import settings.Configurations;
+import settings.Configurations.OutPutFields;
 
 public class DataManager {
 

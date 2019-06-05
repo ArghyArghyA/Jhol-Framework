@@ -1,28 +1,8 @@
 package runners;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.HashMap;
-
-import org.json.JSONObject;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import com.google.common.io.Files;
-import com.jacob.com.LibraryLoader;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-import managers.APIUtil;
-import managers.APIUtil.Method;
-import managers.APIUtil.Response;
-import managers.utilities.AutoItX;
-import managers.utilities.Basic;
 
 public class Test {
 
@@ -141,11 +121,12 @@ public class Test {
 		/*
 		 * Test t = new Test(); t.B();
 		 */
-		APIUtil ap = new APIUtil();
-		ap.setURI("https://www.google.com/?q='test'");
-		ap.setParameter(new HashMap<String, String>() {{put("q", "Test");}});
-//		ap.setAuthentication(new Basic("ArghyArghya", "f8cda53181fd92a7e12548fd4a6541c11b47f00b"));
-		ap.GET();
+		/*
+		 * APIUtil ap = new APIUtil(); ap.setURI("https://www.google.com/?q='test'");
+		 * ap.setParameter(new HashMap<String, String>() {{put("q", "Test");}}); //
+		 * ap.setAuthentication(new Basic("ArghyArghya",
+		 * "f8cda53181fd92a7e12548fd4a6541c11b47f00b")); ap.GET();
+		 */
 
 	}
 }

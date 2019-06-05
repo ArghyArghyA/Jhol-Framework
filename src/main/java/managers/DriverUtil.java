@@ -36,9 +36,9 @@ import org.openqa.selenium.winium.WiniumDriver;
 import com.aventstack.extentreports.Status;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
-import dataProviders.Configurations;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import managers.utilities.AutoItX;
+import settings.Configurations;
 
 /**
  * @author Alpha Romeo
@@ -1914,7 +1914,7 @@ public class DriverUtil {
 	/**
 	 * Returns <code>true</code> immediately after the page load completes within
 	 * the page Load time out specified by
-	 * {@link dataProviders.Configurations#PageLoadTimeOut PageLoadTimeOut} in
+	 * {@link settings.Configurations#PageLoadTimeOut PageLoadTimeOut} in
 	 * seconds. If the page load is not complete after the stipulated time returns
 	 * false.
 	 * 

@@ -1,4 +1,4 @@
-package dataProviders;
+package settings;
 
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.chrome.ChromeOptions;

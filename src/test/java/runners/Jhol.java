@@ -14,13 +14,12 @@ import javax.swing.JProgressBar;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import dataProviders.Configurations;
-
 import java.lang.reflect.*;
 
 import managers.DataManager;
 import managers.Reporter;
 import scripts.*;
+import settings.Configurations;
 
 public class Jhol {
 	static Reporter report = Reporter.getInstance();
@@ -52,7 +51,7 @@ public class Jhol {
 	public static void Google(HashMap<String, String> dictionary) throws Exception {
 		report.reportTest(dictionary);
 		Search s = new Search(report);
-		Windows w = new Windows(report);
+//		Windows w = new Windows(report);
 		boolean proceed = s.search() && s.clickFirstResult();// && w.saveSearchResult();
 		report.endTest();
 	}

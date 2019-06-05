@@ -2,10 +2,10 @@ package scripts;
 
 import com.aventstack.extentreports.Status;
 
-import dataProviders.Configurations.OutPutFields;
 import managers.DriverUtil;
 import managers.Reporter;
 import pageObjects.Google;
+import settings.Configurations.OutPutFields;
 
 public class Search extends DriverUtil {
 
