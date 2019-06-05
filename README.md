@@ -6,6 +6,12 @@ This framework is intended/focused for end to end web automation testing. Howeve
 
 Clone the project to your local machine and import the project to your eclipse as a Maven project. You are good to go.
 
+<details>
+	<summary>Title 1</summary>
+    <p>Content 1 Content 1 Content 1 Content 1 Content 1</p>
+</details>
+	
+
 ### Prerequisites
 
 You have to have Java and eclipse installed in your machine. 
