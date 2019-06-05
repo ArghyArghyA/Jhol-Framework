@@ -9,28 +9,23 @@ Clone the project to your local machine and import the project to your eclipse a
 Expand the project to know more about it
 
 <ul>
-    <!--src-->
     <li>
         <details>
             <summary>src</summary>
             <ul>
-                <!--main-->
                 <li>
                     <details>
                         <summary>main</summary>
                         <ul>
-                            <!--java-->
                             <li>
                                 <details>
                                     <summary>java</summary>
                                     <ul>
-                                        <!--managers-->
                                         <li>
                                             <details>
                                                 <summary><b>managers</b> - This package contains all the controler for
                                                     the execution </summary>
                                                 <ul>
-                                                    <!--APIUtil-->
                                                     <li>
                                                         <details>
                                                             <summary><b>APIUtil</b> - this class has all the methods to
@@ -40,7 +35,6 @@ Expand the project to know more about it
                                                             </ul>
                                                         </details>
                                                     </li>
-                                                    <!--DataManager-->
                                                     <li>
                                                         <details>
                                                             <summary><b>DataManager</b> - this class has all the methods
@@ -110,7 +104,6 @@ Expand the project to know more about it
                                                             </ul>
                                                         </details>
                                                     </li>
-                                                    <!--DriverUtil-->
                                                     <li>
                                                         <details>
                                                             <summary><b>DriverUtil</b> - this class has all the methods
@@ -1171,7 +1164,6 @@ Expand the project to know more about it
                                                             </ul>
                                                         </details>
                                                     </li>
-                                                    <!--Reporter-->
                                                     <li>
                                                         <details>
                                                             <summary><b>Reporter</b> - this class has all the methods
@@ -1223,7 +1215,6 @@ Expand the project to know more about it
                                                 </ul>
                                             </details>
                                         </li>
-                                        <!--pageObjects-->
                                         <li>
                                             <details>
                                                 <summary><b>pageObjects</b> - This package will contain classes with all
@@ -1263,7 +1254,6 @@ public class Google {
                                                                                 </pre></code>
                                             </details>
                                         </li>
-                                        <!--scripts-->
                                         <li>
                                             <details>
                                                 <summary><b>scripts</b> - this package will contain classes for actual
@@ -1331,7 +1321,6 @@ public class Search extends DriverUtil {
                                                                                 </code>
                                             </details>
                                         </li>
-                                        <!--settings-->
                                         <li>
                                             <details>
                                                 <summary><b>settings</b> - this package contains Configurations class
@@ -1341,7 +1330,6 @@ public class Search extends DriverUtil {
                                                     level
                                                     settings</summary>
                                                 <ul>
-                                                    <!--Configurations-->
                                                     <li>
                                                         <details>
                                                             <summary><b>Configurations</b> - contains all the project
@@ -1349,7 +1337,6 @@ public class Search extends DriverUtil {
                                                                 settings
                                                             </summary>
                                                             <ul>
-                                                                <!--OutPutFields-->
                                                                 <li>
                                                                     <details>
                                                                         <summary><b>OutPutFields</b> - contains all the
@@ -1420,7 +1407,6 @@ public static enum OutPutFields {
                                                                          </code>
                                                                     </details>
                                                                 </li>
-                                                                <!--minimumLogLevel-->
                                                                 <li>
                                                                     <details>
                                                                         <summary><b>minimumLogLevel : Status</b> -
@@ -1550,7 +1536,6 @@ public static enum OutPutFields {
                                     </ul>
                                 </details>
                             </li>
-                            <!--resources-->
                             <li>
                                 <details>
                                     <summary>resources</summary>
