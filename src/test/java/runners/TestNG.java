@@ -81,6 +81,7 @@ public class TestNG {
 		Object[] data = DataManager.read(arguments).toArray();
 		numberOfTestcases = data.length;
 		progressBar.setMaximum(numberOfTestcases);
+		progressBar.setBorder(BorderFactory.createTitledBorder("Processed " + counter + "/" + numberOfTestcases));
 		return data;
 
 	}
