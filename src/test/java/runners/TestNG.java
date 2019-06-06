@@ -50,7 +50,7 @@ public class TestNG {
 	}
 
 	@Test(dataProvider = "dp")
-	public void f(HashMap<String, String> dictionary) throws InterruptedException {
+	public void test(HashMap<String, String> dictionary) throws InterruptedException {
 		try {
 			report.reportTest(dictionary);
 			Class<?> cls = Class.forName(Configurations.ClassContainingTransactionScripts);

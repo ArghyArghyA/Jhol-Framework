@@ -17,6 +17,11 @@ public class Configurations {
 	public static final int PageLoadTimeOut = 120; // in seconds
 	public static final int ShortTimeOut = 5;// in seconds
 	public static final int LongTimeOut = 60;// in seconds
+	
+	/**
+	 * Applicable for TestNG only. Will retry the failed test cases if greater than 0
+	 */
+	public static final int maximumRetryCount = 2;
 
 	/**
 	 * set it true to enable highlight method before trying to interact with the

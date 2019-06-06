@@ -88,18 +88,18 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 </pre></br>]]>
     </line>
     <line>
-      <![CDATA[<a href='../src/test/resources/Results/Screenshot/2019-06-06 23-51-48.246/4/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-06 23-51-48.246/4/1.png' height='100' width='100'/> </a>]]>
+      <![CDATA[<a href='../src/test/resources/Results/Screenshot/2019-06-07 00-12-37.159/4/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-07 00-12-37.159/4/1.png' height='100' width='100'/> </a>]]>
     </line>
     <line>
       <![CDATA[FAIL: scripts.Windows:23: Failed to process Notepad]]>
     </line>
   </reporter-output>
-  <suite name="Default suite" duration-ms="34732" started-at="2019-06-06T18:21:48Z" finished-at="2019-06-06T18:22:23Z">
+  <suite name="Default suite" duration-ms="33383" started-at="2019-06-06T18:42:37Z" finished-at="2019-06-06T18:43:11Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="34732" started-at="2019-06-06T18:21:48Z" finished-at="2019-06-06T18:22:23Z">
+    <test name="Default test" duration-ms="33383" started-at="2019-06-06T18:42:37Z" finished-at="2019-06-06T18:43:11Z">
       <class name="runners.TestNG">
-        <test-method status="PASS" signature="f(java.util.HashMap)[pri:0, instance:runners.TestNG@3d121db3]" name="f" duration-ms="15744" started-at="2019-06-06T18:21:49Z" data-provider="dp" finished-at="2019-06-06T18:22:05Z">
+        <test-method status="PASS" signature="f(java.util.HashMap)[pri:0, instance:runners.TestNG@3d121db3]" name="f" duration-ms="14340" started-at="2019-06-06T18:42:38Z" data-provider="dp" finished-at="2019-06-06T18:42:53Z">
           <params>
             <param index="0">
               <value>
@@ -131,7 +131,7 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
             </line>
           </reporter-output>
         </test-method> <!-- f -->
-        <test-method status="FAIL" signature="f(java.util.HashMap)[pri:0, instance:runners.TestNG@3d121db3]" name="f" duration-ms="17970" started-at="2019-06-06T18:22:05Z" data-provider="dp" finished-at="2019-06-06T18:22:23Z">
+        <test-method status="FAIL" signature="f(java.util.HashMap)[pri:0, instance:runners.TestNG@3d121db3]" name="f" duration-ms="17989" started-at="2019-06-06T18:42:53Z" data-provider="dp" finished-at="2019-06-06T18:43:11Z">
           <params>
             <param index="0">
               <value>
@@ -245,14 +245,14 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 </pre></br>]]>
             </line>
             <line>
-              <![CDATA[<a href='../src/test/resources/Results/Screenshot/2019-06-06 23-51-48.246/4/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-06 23-51-48.246/4/1.png' height='100' width='100'/> </a>]]>
+              <![CDATA[<a href='../src/test/resources/Results/Screenshot/2019-06-07 00-12-37.159/4/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-07 00-12-37.159/4/1.png' height='100' width='100'/> </a>]]>
             </line>
             <line>
               <![CDATA[FAIL: scripts.Windows:23: Failed to process Notepad]]>
             </line>
           </reporter-output>
         </test-method> <!-- f -->
-        <test-method status="PASS" signature="afterSuit()[pri:0, instance:runners.TestNG@3d121db3]" name="afterSuit" is-config="true" duration-ms="27" started-at="2019-06-06T18:22:23Z" finished-at="2019-06-06T18:22:23Z">
+        <test-method status="PASS" signature="afterSuit()[pri:0, instance:runners.TestNG@3d121db3]" name="afterSuit" is-config="true" duration-ms="12" started-at="2019-06-06T18:43:11Z" finished-at="2019-06-06T18:43:11Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterSuit -->
