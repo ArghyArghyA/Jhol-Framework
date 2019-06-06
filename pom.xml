@@ -21,6 +21,13 @@
 		</pluginManagement>
 	</build>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.14.3</version>
+		</dependency>
+
 		<!-- https://docs.cucumber.io/installation/java/ -->
 		<dependency>
 			<groupId>io.cucumber</groupId>

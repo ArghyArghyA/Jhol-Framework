@@ -93,7 +93,7 @@ public class Configurations {
 	 * containing all the End-to-End scripts script methods must match to that of
 	 * TestCaseDescription of the test case
 	 */
-	public static final String ClassContainingTransactionScripts = "runners.Jhol";
+	public static final String ClassContainingTransactionScripts = "scripts.transaction.Transactions";
 
 	/**
 	 * Contains all the output field details and their column names/indexes.

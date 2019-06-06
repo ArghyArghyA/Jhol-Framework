@@ -198,9 +198,10 @@ public final class Reporter {
 			String imagePath = "./src/test/resources/Results/Screenshot/" + timeStamp + "/" + Reporter.testName + "/"
 					+ counter + ".png";
 			File localFile = new File(imagePath);
-			imagePath = localFile.getAbsolutePath();
+//			imagePath = localFile.getAbsolutePath();
 			try {
 				FileUtils.copyFile(file, localFile);
+				org.testng.Reporter.log("<a href='."+ imagePath + "'> <img src='."+ imagePath + "' height='100' width='100'/> </a>");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

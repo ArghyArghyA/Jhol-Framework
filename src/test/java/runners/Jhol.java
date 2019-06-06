@@ -24,46 +24,6 @@ import settings.Configurations;
 public class Jhol {
 	static Reporter report = Reporter.getInstance();
 
-	/*
-	 * demo on transaction implementation below DO NOT Uncomment/Do NOT Change
-	 ***********************************************************************************************************************/
-//	public static void NB(HashMap<String, String> dictionary) {
-//		boolean x = true;
-//		report.reportTest(dictionary);
-//		Commons c = new Commons(report);
-//		NBNH n = new NBNH(report);
-//		try {
-//			x = c.login() && c.SelectEnvironment() && n.fillClientDetails() && n.fillHouseholdInformation()
-//						&& n.Rate();
-//			if (x) {
-//				x = n.addLoss() && n.fillCoverage() && n.fillAdditionalInformation()
-//						&& n.addMortgagee() && n.setUpAccount() && n.processPayment();
-//				x = x && (n.submit() ? c.completeAgentDecision() : n.saveAndExit());
-//			}
-//		} catch (Exception e) {
-//		}
-//		report.endTest();
-//	}
-	/*
-	 * demo on transaction implementation above DO NOT Uncomment/Do NOT Change
-	 ***********************************************************************************************************************/
-
-	public static void Google(HashMap<String, String> dictionary) throws Exception {
-		report.reportTest(dictionary);
-		Search s = new Search(report);
-//		Windows w = new Windows(report);
-		boolean proceed = s.search() && s.clickFirstResult();// && w.saveSearchResult();
-		report.endTest();
-	}
-	
-	public static void windows(HashMap<String, String> dictionary) throws Exception
-	{
-		report.reportTest(dictionary);
-		Windows w = new Windows(report);
-		w.notepad();
-		report.endTest();
-	}
-
 	public static void main(String[] args) throws InvalidFormatException, IOException, InterruptedException {
 		JFrame frame = new JFrame("Progress");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -116,11 +76,13 @@ public class Jhol {
 		for (HashMap<String, String> dictionary : Data) {
 
 			try {
+				report.reportTest(dictionary);
 				Class<?> cls = Class.forName(Configurations.ClassContainingTransactionScripts);
 				Object object = cls.newInstance();
 				Method method = cls.getMethod(dictionary.get("TestCaseDescription"),
 						new HashMap<String, String>().getClass());
 				method.invoke(object, dictionary);
+				report.endTest();
 			} catch (NoSuchMethodException e) {
 				System.out.println("Transaction not implemented yet");
 				e.printStackTrace();
