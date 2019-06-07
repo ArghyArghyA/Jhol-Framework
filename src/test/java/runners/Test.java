@@ -1,8 +1,12 @@
 package runners;
 
+import java.util.ArrayList;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import managers.DataManager;
 
 public class Test {
 
@@ -127,6 +131,9 @@ public class Test {
 		 * ap.setAuthentication(new Basic("ArghyArghya",
 		 * "f8cda53181fd92a7e12548fd4a6541c11b47f00b")); ap.GET();
 		 */
+		ArrayList<String> l = new ArrayList<>();
+		l.add("All");
+		DataManager.createFeatureFile(DataManager.read(l));
 
 	}
 }

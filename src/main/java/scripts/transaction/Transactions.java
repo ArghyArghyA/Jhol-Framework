@@ -2,6 +2,7 @@ package scripts.transaction;
 
 import java.util.HashMap;
 
+import managers.DriverUtil;
 import managers.Reporter;
 import scripts.Search;
 import scripts.Windows;
@@ -39,12 +40,12 @@ public class Transactions {
 	 * demo on transaction implementation above DO NOT Uncomment/Do NOT Change
 	 ***********************************************************************************************************************/
 
-	public boolean Google(HashMap<String, String> dictionary) throws Exception {
+	public static boolean Google(HashMap<String, String> dictionary) {
 		Search s = new Search(report);
 		return s.search() && s.clickFirstResult();// && w.saveSearchResult();
 	}
 	
-	public boolean windows(HashMap<String, String> dictionary) throws Exception
+	public static boolean windows(HashMap<String, String> dictionary)
 	{
 		Windows w = new Windows(report);
 		return w.notepad();
