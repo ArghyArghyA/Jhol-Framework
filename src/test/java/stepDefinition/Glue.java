@@ -1,11 +1,16 @@
 package stepDefinition;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertThrows;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
 
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import io.cucumber.datatable.DataTable;
 import managers.Reporter;
@@ -29,6 +34,17 @@ public class Glue {
 		{
 			reporter.endTest();
 		}
+		
+	}
+	
+	@Before
+	public void before()
+	{
+		
+	}
+	@After
+	public void After()
+	{
 		
 	}
 

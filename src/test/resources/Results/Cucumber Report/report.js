@@ -9,6 +9,9 @@ formatter.scenario({
   "description": "",
   "keyword": "Scenario"
 });
+formatter.before({
+  "status": "skipped"
+});
 formatter.step({
   "name": "Google",
   "rows": [
@@ -39,13 +42,18 @@ formatter.match({
   "location": "Glue.Google(DataTable)"
 });
 formatter.result({
-  "error_message": "java.lang.AssertionError\r\n\tat org.junit.Assert.fail(Assert.java:86)\r\n\tat org.junit.Assert.assertTrue(Assert.java:41)\r\n\tat org.junit.Assert.assertTrue(Assert.java:52)\r\n\tat stepDefinition.Glue.Google(Glue.java:25)\r\n\tat ✽.Google(file:src/test/resources/FunctionalTests/test.feature:4)\r\n",
-  "status": "failed"
+  "status": "skipped"
+});
+formatter.after({
+  "status": "skipped"
 });
 formatter.scenario({
   "name": "Google : 2",
   "description": "",
   "keyword": "Scenario"
+});
+formatter.before({
+  "status": "skipped"
 });
 formatter.step({
   "name": "Google",
@@ -79,12 +87,18 @@ formatter.match({
   "location": "Glue.Google(DataTable)"
 });
 formatter.result({
-  "status": "passed"
+  "status": "skipped"
+});
+formatter.after({
+  "status": "skipped"
 });
 formatter.scenario({
   "name": "Google : 3",
   "description": "",
   "keyword": "Scenario"
+});
+formatter.before({
+  "status": "skipped"
 });
 formatter.step({
   "name": "Google",
@@ -120,13 +134,18 @@ formatter.match({
   "location": "Glue.Google(DataTable)"
 });
 formatter.result({
-  "error_message": "java.lang.AssertionError\r\n\tat org.junit.Assert.fail(Assert.java:86)\r\n\tat org.junit.Assert.assertTrue(Assert.java:41)\r\n\tat org.junit.Assert.assertTrue(Assert.java:52)\r\n\tat stepDefinition.Glue.Google(Glue.java:25)\r\n\tat ✽.Google(file:src/test/resources/FunctionalTests/test.feature:14)\r\n",
-  "status": "failed"
+  "status": "skipped"
+});
+formatter.after({
+  "status": "skipped"
 });
 formatter.scenario({
   "name": "windows : 4",
   "description": "",
   "keyword": "Scenario"
+});
+formatter.before({
+  "status": "skipped"
 });
 formatter.step({
   "name": "windows",
@@ -157,5 +176,8 @@ formatter.step({
 formatter.match({});
 formatter.result({
   "status": "undefined"
+});
+formatter.after({
+  "status": "skipped"
 });
 });
