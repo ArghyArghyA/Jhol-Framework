@@ -19,7 +19,7 @@ public class Configurations {
 	public static final int LongTimeOut = 60;// in seconds
 	
 	/**
-	 * Applicable for TestNG only. Will retry the failed test cases if greater than 0
+	 * Applicable for TestNGTest only. Will retry the failed test cases if greater than 0
 	 */
 	public static final int maximumRetryCount = 2;
 

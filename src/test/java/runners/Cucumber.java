@@ -6,7 +6,8 @@ import cucumber.api.CucumberOptions;
 
 @RunWith(cucumber.api.junit.Cucumber.class)
 @CucumberOptions(features = "src/test/resources/FunctionalTests", glue = { "stepDefinition" }, plugin = { "pretty",
-		"html:src/test/resources/Results/Cucumber Report" })
+		"html:src/test/resources/Results/Cucumber Report" }, dryRun = true)
 public class Cucumber {
+	
 
 }

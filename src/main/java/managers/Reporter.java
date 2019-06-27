@@ -25,7 +25,7 @@ public final class Reporter {
 	private static ExtentReports report;
 	private static ExtentTest test;
 	private static String testName;
-	private final String timeStamp;
+	final String timeStamp;
 	private static int counter;
 	private static Reporter reporter = new Reporter();
 

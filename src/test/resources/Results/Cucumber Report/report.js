@@ -5,49 +5,6 @@ formatter.feature({
   "keyword": "Feature"
 });
 formatter.scenario({
-  "name": "Google : 1",
-  "description": "",
-  "keyword": "Scenario"
-});
-formatter.before({
-  "status": "skipped"
-});
-formatter.step({
-  "name": "Google",
-  "rows": [
-    {
-      "cells": [
-        "Execute",
-        "browser",
-        "TestCaseID",
-        "index",
-        "sheet",
-        "TestCaseDescription"
-      ]
-    },
-    {
-      "cells": [
-        "No",
-        "Chrome",
-        "1",
-        "2",
-        "Google",
-        "Google"
-      ]
-    }
-  ],
-  "keyword": "Given "
-});
-formatter.match({
-  "location": "Glue.Google(DataTable)"
-});
-formatter.result({
-  "status": "skipped"
-});
-formatter.after({
-  "status": "skipped"
-});
-formatter.scenario({
   "name": "Google : 2",
   "description": "",
   "keyword": "Scenario"
@@ -76,53 +33,6 @@ formatter.step({
         "2",
         "jhol",
         "3",
-        "Google",
-        "Google"
-      ]
-    }
-  ],
-  "keyword": "Given "
-});
-formatter.match({
-  "location": "Glue.Google(DataTable)"
-});
-formatter.result({
-  "status": "skipped"
-});
-formatter.after({
-  "status": "skipped"
-});
-formatter.scenario({
-  "name": "Google : 3",
-  "description": "",
-  "keyword": "Scenario"
-});
-formatter.before({
-  "status": "skipped"
-});
-formatter.step({
-  "name": "Google",
-  "rows": [
-    {
-      "cells": [
-        "Execute",
-        "browser",
-        "TestCaseID",
-        "Search Keyword",
-        "index",
-        "Save Search Result",
-        "sheet",
-        "TestCaseDescription"
-      ]
-    },
-    {
-      "cells": [
-        "Yes",
-        "Chrome",
-        "3",
-        "Another Jhol",
-        "4",
-        "Yes",
         "Google",
         "Google"
       ]
