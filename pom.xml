@@ -10,6 +10,19 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<artifactId>maven-test</artifactId>
+					<version>1.0.0</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>clean</goal>
+								<goal>compile</goal>
+								<goal>test</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.8.1</version>
