@@ -76,7 +76,7 @@ public class TestNG {
 
 	@DataProvider
 	public Object[] dp() throws InvalidFormatException, IOException {
-		ArrayList<String> arguments = new ArrayList<>(Arrays.asList(System.getProperty("filter").split(" ")));
+		ArrayList<String> arguments = System.getProperty("filter")== null? new ArrayList<>(): new ArrayList<>(Arrays.asList(System.getProperty("filter").split(" ")));
 		Object[] data = DataManager.read(arguments).toArray();
 		numberOfTestcases = data.length;
 		progressBar.setMaximum(numberOfTestcases);

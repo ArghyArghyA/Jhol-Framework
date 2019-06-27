@@ -55,11 +55,11 @@ function toggleAllBoxes() {
 <body>
 <h2 align='center'>Default test</h2><table border='1' align="center">
 <tr>
-<td>Tests passed/Failed/Skipped:</td><td>1/1/0</td>
+<td>Tests passed/Failed/Skipped:</td><td>0/1/0</td>
 </tr><tr>
-<td>Started on:</td><td>Tue Jun 11 21:28:04 IST 2019</td>
+<td>Started on:</td><td>Fri Jun 28 00:50:55 IST 2019</td>
 </tr>
-<tr><td>Total time:</td><td>33 seconds (33215 ms)</td>
+<tr><td>Total time:</td><td>44 seconds (44677 ms)</td>
 </tr><tr>
 <td>Included groups:</td><td></td>
 </tr><tr>
@@ -75,41 +75,20 @@ function toggleAllBoxes() {
 <td><b>Instance</b></td>
 </tr>
 <tr>
-<td title='runners.TestNG.test()'><b>test</b><br>Test class: runners.TestNG<br>Parameters: {Execute=No, browser=Chrome, TestCaseID=4, index=5, sheet=Google, TestCaseDescription=windows}<br/>
-<a href="#Output-453007883" onClick='toggleBox("Output-453007883", this, "Show output", "Hide output");'>Show output</a>
+<td title='runners.TestNG.test()'><b>test</b><br>Test class: runners.TestNG<br>Parameters: {Execute=Yes, browser=Chrome, TestCaseID=3, Search Keyword=Another Jhol, index=4, Save Search Result=Yes, sheet=Google, TestCaseDescription=Google}<br/>
+<a href="#Output-450438867" onClick='toggleBox("Output-450438867", this, "Show output", "Hide output");'>Show output</a>
 
-<a href="#Output-453007883" onClick="toggleAllBoxes();">Show all outputs</a>
-<div class='log' id="Output-453007883">
-INFO: scripts.Windows:18: Successfully started desktop automation server<br/>
-INFO: scripts.Windows:18: Unable to switch to window with ClassName = Notepad<br><pre>org.openqa.selenium.NoSuchElementException: Element cannot be found (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 0 milliseconds
-For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
-Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
-System info: host: 'DESKTOP-V3KCQ7Q', ip: '192.168.11.57', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_212-3-redhat'
-Driver info: org.openqa.selenium.winium.WiniumDriver
-Capabilities {app: , args: , debugConnectToRunningApp: true, innerPort: 9998, javascriptEnabled: true, keyboardSimulator: 1, launchDelay: 0, platform: ANY, platformName: ANY}
-Session ID: AwesomeSession
-*** Element info: {Using=xpath, value=/*[@ClassName = 'Notepad']}
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:214)
-	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:166)
-	at org.openqa.selenium.remote.http.JsonHttpResponseCodec.reconstructValue(JsonHttpResponseCodec.java:40)
-	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:80)
-	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:44)
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
-	at org.openqa.selenium.winium.WiniumDriverCommandExecutor.execute(WiniumDriverCommandExecutor.java:78)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:323)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:428)
-	at org.openqa.selenium.By$ByXPath.findElement(By.java:353)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:315)
-	at managers.DriverUtil.switchToWindow(DriverUtil.java:1870)
-	at managers.DriverUtil.switchToWindow(DriverUtil.java:1824)
-	at scripts.Windows.notepad(Windows.java:18)
-	at scripts.transaction.Transactions.windows(Transactions.java:51)
+<a href="#Output-450438867" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-450438867">
+INFO: scripts.Search:19: Successfully opened Chrome<br/>
+INFO: scripts.Search:20: Successfully filled By.cssSelector: input[title = 'Search'] by Another Jhol<br/>
+INFO: scripts.Search:22: Successfully clicked on By.cssSelector: div.FPdoLc>center>input[value = 'Google Search']<br/>
+PASS: scripts.Search:28: Successfully Searched<br/>
+INFO: scripts.Search:44: Successfully clicked on By.cssSelector: div.r>a<br/>
+INFO: scripts.Search:46: Unable to navigate to Another Jhol<br><pre>java.lang.AssertionError
+	at managers.DriverUtil.assertTitle(DriverUtil.java:90)
+	at scripts.Search.clickFirstResult(Search.java:46)
+	at scripts.transaction.Transactions.Google(Transactions.java:45)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -141,8 +120,8 @@ Session ID: AwesomeSession
 	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 </pre></br><br/>
-<a href='../src/test/resources/Results/Screenshot/2019-06-11 21-28-04.039/4/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-11 21-28-04.039/4/1.png' height='100' width='100'/> </a><br/>
-FAIL: scripts.Windows:23: Failed to process Notepad<br/>
+<a href='../src/test/resources/Results/Screenshot/2019-06-28 00-50-55.202/3/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-28 00-50-55.202/3/1.png' height='100' width='100'/> </a><br/>
+FAIL: scripts.Search:50: Unable to open first search result<br/>
 </div>
 </td>
 <td><div><pre>java.lang.AssertionError: expected [true] but found [false]
@@ -176,8 +155,8 @@ FAIL: scripts.Windows:23: Failed to process Notepad<br/>
 	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
 	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-</pre></div><a href='#' onClick='toggleBox("stack-trace453007883", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace453007883'><pre>java.lang.AssertionError: expected [true] but found [false]
+</pre></div><a href='#' onClick='toggleBox("stack-trace450438867", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace450438867'><pre>java.lang.AssertionError: expected [true] but found [false]
 	at org.testng.Assert.fail(Assert.java:96)
 	at org.testng.Assert.failNotEquals(Assert.java:776)
 	at org.testng.Assert.assertTrue(Assert.java:44)
@@ -209,33 +188,7 @@ FAIL: scripts.Windows:23: Failed to process Notepad<br/>
 	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 </pre></div></td>
-<td>17</td>
-<td>runners.TestNG@63a65a25</td></tr>
-</table><p>
-<table width='100%' border='1' class='invocation-passed'>
-<tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
-<tr><td><b>Test method</b></td>
-<td width="30%"><b>Exception</b></td>
-<td width="10%"><b>Time (seconds)</b></td>
-<td><b>Instance</b></td>
-</tr>
-<tr>
-<td title='runners.TestNG.test()'><b>test</b><br>Test class: runners.TestNG<br>Parameters: {Execute=No, browser=Chrome, TestCaseID=2, Search Keyword=jhol, index=3, sheet=Google, TestCaseDescription=Google}<br/>
-<a href="#Output-1365790282" onClick='toggleBox("Output-1365790282", this, "Show output", "Hide output");'>Show output</a>
-
-<a href="#Output-1365790282" onClick="toggleAllBoxes();">Show all outputs</a>
-<div class='log' id="Output-1365790282">
-INFO: scripts.Search:19: Successfully opened Chrome<br/>
-INFO: scripts.Search:20: Successfully filled By.cssSelector: input[title = 'Search'] by jhol<br/>
-INFO: scripts.Search:22: Successfully clicked on By.cssSelector: div.FPdoLc>center>input[value = 'Google Search']<br/>
-PASS: scripts.Search:28: Successfully Searched<br/>
-INFO: scripts.Search:44: Successfully clicked on By.cssSelector: div.r>a<br/>
-INFO: scripts.Search:46: Successfully Navigated to jhol<br/>
-PASS: scripts.Search:48: Successfully opened first search result<br/>
-</div>
-</td>
-<td></td>
-<td>14</td>
+<td>43</td>
 <td>runners.TestNG@63a65a25</td></tr>
 </table><p>
 </body>

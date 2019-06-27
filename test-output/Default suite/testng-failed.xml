@@ -6,7 +6,7 @@
       <class name="runners.TestNG">
         <methods>
           <include name="afterSuit"/>
-          <include name="test" invocation-numbers="1"/>
+          <include name="test" invocation-numbers="0"/>
         </methods>
       </class> <!-- runners.TestNG -->
     </classes>

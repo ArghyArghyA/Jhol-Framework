@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="1" ignored="0" total="2" passed="1">
+<testng-results skipped="0" failed="1" ignored="0" total="1" passed="0">
   <reporter-output>
     <line>
       <![CDATA[INFO: scripts.Search:19: Successfully opened Chrome]]>
     </line>
     <line>
-      <![CDATA[INFO: scripts.Search:20: Successfully filled By.cssSelector: input[title = 'Search'] by jhol]]>
+      <![CDATA[INFO: scripts.Search:20: Successfully filled By.cssSelector: input[title = 'Search'] by Another Jhol]]>
     </line>
     <line>
       <![CDATA[INFO: scripts.Search:22: Successfully clicked on By.cssSelector: div.FPdoLc>center>input[value = 'Google Search']]]>
@@ -17,44 +17,10 @@
       <![CDATA[INFO: scripts.Search:44: Successfully clicked on By.cssSelector: div.r>a]]>
     </line>
     <line>
-      <![CDATA[INFO: scripts.Search:46: Successfully Navigated to jhol]]>
-    </line>
-    <line>
-      <![CDATA[PASS: scripts.Search:48: Successfully opened first search result]]>
-    </line>
-    <line>
-      <![CDATA[INFO: scripts.Windows:18: Successfully started desktop automation server]]>
-    </line>
-    <line>
-      <![CDATA[INFO: scripts.Windows:18: Unable to switch to window with ClassName = Notepad<br><pre>org.openqa.selenium.NoSuchElementException: Element cannot be found (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 0 milliseconds
-For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
-Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
-System info: host: 'DESKTOP-V3KCQ7Q', ip: '192.168.11.57', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_212-3-redhat'
-Driver info: org.openqa.selenium.winium.WiniumDriver
-Capabilities {app: , args: , debugConnectToRunningApp: true, innerPort: 9998, javascriptEnabled: true, keyboardSimulator: 1, launchDelay: 0, platform: ANY, platformName: ANY}
-Session ID: AwesomeSession
-*** Element info: {Using=xpath, value=/*[@ClassName = 'Notepad']}
-at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:214)
-at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:166)
-at org.openqa.selenium.remote.http.JsonHttpResponseCodec.reconstructValue(JsonHttpResponseCodec.java:40)
-at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:80)
-at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:44)
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
-at org.openqa.selenium.winium.WiniumDriverCommandExecutor.execute(WiniumDriverCommandExecutor.java:78)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:323)
-at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:428)
-at org.openqa.selenium.By$ByXPath.findElement(By.java:353)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:315)
-at managers.DriverUtil.switchToWindow(DriverUtil.java:1870)
-at managers.DriverUtil.switchToWindow(DriverUtil.java:1824)
-at scripts.Windows.notepad(Windows.java:18)
-at scripts.transaction.Transactions.windows(Transactions.java:51)
+      <![CDATA[INFO: scripts.Search:46: Unable to navigate to Another Jhol<br><pre>java.lang.AssertionError
+at managers.DriverUtil.assertTitle(DriverUtil.java:90)
+at scripts.Search.clickFirstResult(Search.java:46)
+at scripts.transaction.Transactions.Google(Transactions.java:45)
 at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -88,54 +54,22 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 </pre></br>]]>
     </line>
     <line>
-      <![CDATA[<a href='../src/test/resources/Results/Screenshot/2019-06-11 21-28-04.039/4/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-11 21-28-04.039/4/1.png' height='100' width='100'/> </a>]]>
+      <![CDATA[<a href='../src/test/resources/Results/Screenshot/2019-06-28 00-50-55.202/3/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-28 00-50-55.202/3/1.png' height='100' width='100'/> </a>]]>
     </line>
     <line>
-      <![CDATA[FAIL: scripts.Windows:23: Failed to process Notepad]]>
+      <![CDATA[FAIL: scripts.Search:50: Unable to open first search result]]>
     </line>
   </reporter-output>
-  <suite name="Default suite" duration-ms="33215" started-at="2019-06-11T15:58:04Z" finished-at="2019-06-11T15:58:37Z">
+  <suite name="Default suite" duration-ms="44677" started-at="2019-06-27T19:20:55Z" finished-at="2019-06-27T19:21:40Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="33215" started-at="2019-06-11T15:58:04Z" finished-at="2019-06-11T15:58:37Z">
+    <test name="Default test" duration-ms="44677" started-at="2019-06-27T19:20:55Z" finished-at="2019-06-27T19:21:40Z">
       <class name="runners.TestNG">
-        <test-method status="PASS" signature="test(java.util.HashMap)[pri:0, instance:runners.TestNG@63a65a25]" name="test" duration-ms="14199" started-at="2019-06-11T15:58:05Z" data-provider="dp" finished-at="2019-06-11T15:58:19Z">
+        <test-method status="FAIL" signature="test(java.util.HashMap)[pri:0, instance:runners.TestNG@63a65a25]" name="test" duration-ms="43548" started-at="2019-06-27T19:20:56Z" data-provider="dp" finished-at="2019-06-27T19:21:40Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[{Execute=No, browser=Chrome, TestCaseID=2, Search Keyword=jhol, index=3, sheet=Google, TestCaseDescription=Google}]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-            <line>
-              <![CDATA[INFO: scripts.Search:19: Successfully opened Chrome]]>
-            </line>
-            <line>
-              <![CDATA[INFO: scripts.Search:20: Successfully filled By.cssSelector: input[title = 'Search'] by jhol]]>
-            </line>
-            <line>
-              <![CDATA[INFO: scripts.Search:22: Successfully clicked on By.cssSelector: div.FPdoLc>center>input[value = 'Google Search']]]>
-            </line>
-            <line>
-              <![CDATA[PASS: scripts.Search:28: Successfully Searched]]>
-            </line>
-            <line>
-              <![CDATA[INFO: scripts.Search:44: Successfully clicked on By.cssSelector: div.r>a]]>
-            </line>
-            <line>
-              <![CDATA[INFO: scripts.Search:46: Successfully Navigated to jhol]]>
-            </line>
-            <line>
-              <![CDATA[PASS: scripts.Search:48: Successfully opened first search result]]>
-            </line>
-          </reporter-output>
-        </test-method> <!-- test -->
-        <test-method status="FAIL" signature="test(java.util.HashMap)[pri:0, instance:runners.TestNG@63a65a25]" name="test" duration-ms="17970" started-at="2019-06-11T15:58:19Z" data-provider="dp" finished-at="2019-06-11T15:58:37Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[{Execute=No, browser=Chrome, TestCaseID=4, index=5, sheet=Google, TestCaseDescription=windows}]]>
+                <![CDATA[{Execute=Yes, browser=Chrome, TestCaseID=3, Search Keyword=Another Jhol, index=4, Save Search Result=Yes, sheet=Google, TestCaseDescription=Google}]]>
               </value>
             </param>
           </params>
@@ -180,38 +114,25 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
           </exception> <!-- java.lang.AssertionError -->
           <reporter-output>
             <line>
-              <![CDATA[INFO: scripts.Windows:18: Successfully started desktop automation server]]>
+              <![CDATA[INFO: scripts.Search:19: Successfully opened Chrome]]>
             </line>
             <line>
-              <![CDATA[INFO: scripts.Windows:18: Unable to switch to window with ClassName = Notepad<br><pre>org.openqa.selenium.NoSuchElementException: Element cannot be found (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 0 milliseconds
-For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
-Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
-System info: host: 'DESKTOP-V3KCQ7Q', ip: '192.168.11.57', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_212-3-redhat'
-Driver info: org.openqa.selenium.winium.WiniumDriver
-Capabilities {app: , args: , debugConnectToRunningApp: true, innerPort: 9998, javascriptEnabled: true, keyboardSimulator: 1, launchDelay: 0, platform: ANY, platformName: ANY}
-Session ID: AwesomeSession
-*** Element info: {Using=xpath, value=/*[@ClassName = 'Notepad']}
-at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:214)
-at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:166)
-at org.openqa.selenium.remote.http.JsonHttpResponseCodec.reconstructValue(JsonHttpResponseCodec.java:40)
-at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:80)
-at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:44)
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
-at org.openqa.selenium.winium.WiniumDriverCommandExecutor.execute(WiniumDriverCommandExecutor.java:78)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:323)
-at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:428)
-at org.openqa.selenium.By$ByXPath.findElement(By.java:353)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:315)
-at managers.DriverUtil.switchToWindow(DriverUtil.java:1870)
-at managers.DriverUtil.switchToWindow(DriverUtil.java:1824)
-at scripts.Windows.notepad(Windows.java:18)
-at scripts.transaction.Transactions.windows(Transactions.java:51)
+              <![CDATA[INFO: scripts.Search:20: Successfully filled By.cssSelector: input[title = 'Search'] by Another Jhol]]>
+            </line>
+            <line>
+              <![CDATA[INFO: scripts.Search:22: Successfully clicked on By.cssSelector: div.FPdoLc>center>input[value = 'Google Search']]]>
+            </line>
+            <line>
+              <![CDATA[PASS: scripts.Search:28: Successfully Searched]]>
+            </line>
+            <line>
+              <![CDATA[INFO: scripts.Search:44: Successfully clicked on By.cssSelector: div.r>a]]>
+            </line>
+            <line>
+              <![CDATA[INFO: scripts.Search:46: Unable to navigate to Another Jhol<br><pre>java.lang.AssertionError
+at managers.DriverUtil.assertTitle(DriverUtil.java:90)
+at scripts.Search.clickFirstResult(Search.java:46)
+at scripts.transaction.Transactions.Google(Transactions.java:45)
 at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -245,14 +166,14 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 </pre></br>]]>
             </line>
             <line>
-              <![CDATA[<a href='../src/test/resources/Results/Screenshot/2019-06-11 21-28-04.039/4/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-11 21-28-04.039/4/1.png' height='100' width='100'/> </a>]]>
+              <![CDATA[<a href='../src/test/resources/Results/Screenshot/2019-06-28 00-50-55.202/3/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-28 00-50-55.202/3/1.png' height='100' width='100'/> </a>]]>
             </line>
             <line>
-              <![CDATA[FAIL: scripts.Windows:23: Failed to process Notepad]]>
+              <![CDATA[FAIL: scripts.Search:50: Unable to open first search result]]>
             </line>
           </reporter-output>
         </test-method> <!-- test -->
-        <test-method status="PASS" signature="afterSuit()[pri:0, instance:runners.TestNG@63a65a25]" name="afterSuit" is-config="true" duration-ms="0" started-at="2019-06-11T15:58:37Z" finished-at="2019-06-11T15:58:37Z">
+        <test-method status="PASS" signature="afterSuit()[pri:0, instance:runners.TestNG@63a65a25]" name="afterSuit" is-config="true" duration-ms="8" started-at="2019-06-27T19:21:40Z" finished-at="2019-06-27T19:21:40Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterSuit -->

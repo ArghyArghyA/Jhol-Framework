@@ -1,40 +1,12 @@
 <h2>Reporter output</h2><table><tr><td>INFO: scripts.Search:19: Successfully opened Chrome</td></tr>
-<tr><td>INFO: scripts.Search:20: Successfully filled By.cssSelector: input[title = 'Search'] by jhol</td></tr>
+<tr><td>INFO: scripts.Search:20: Successfully filled By.cssSelector: input[title = 'Search'] by Another Jhol</td></tr>
 <tr><td>INFO: scripts.Search:22: Successfully clicked on By.cssSelector: div.FPdoLc>center>input[value = 'Google Search']</td></tr>
 <tr><td>PASS: scripts.Search:28: Successfully Searched</td></tr>
 <tr><td>INFO: scripts.Search:44: Successfully clicked on By.cssSelector: div.r>a</td></tr>
-<tr><td>INFO: scripts.Search:46: Successfully Navigated to jhol</td></tr>
-<tr><td>PASS: scripts.Search:48: Successfully opened first search result</td></tr>
-<tr><td>INFO: scripts.Windows:18: Successfully started desktop automation server</td></tr>
-<tr><td>INFO: scripts.Windows:18: Unable to switch to window with ClassName = Notepad<br><pre>org.openqa.selenium.NoSuchElementException: Element cannot be found (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 0 milliseconds
-For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
-Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
-System info: host: 'DESKTOP-V3KCQ7Q', ip: '192.168.11.57', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_212-3-redhat'
-Driver info: org.openqa.selenium.winium.WiniumDriver
-Capabilities {app: , args: , debugConnectToRunningApp: true, innerPort: 9998, javascriptEnabled: true, keyboardSimulator: 1, launchDelay: 0, platform: ANY, platformName: ANY}
-Session ID: AwesomeSession
-*** Element info: {Using=xpath, value=/*[@ClassName = 'Notepad']}
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:214)
-	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:166)
-	at org.openqa.selenium.remote.http.JsonHttpResponseCodec.reconstructValue(JsonHttpResponseCodec.java:40)
-	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:80)
-	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:44)
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
-	at org.openqa.selenium.winium.WiniumDriverCommandExecutor.execute(WiniumDriverCommandExecutor.java:78)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:323)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:428)
-	at org.openqa.selenium.By$ByXPath.findElement(By.java:353)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:315)
-	at managers.DriverUtil.switchToWindow(DriverUtil.java:1870)
-	at managers.DriverUtil.switchToWindow(DriverUtil.java:1824)
-	at scripts.Windows.notepad(Windows.java:18)
-	at scripts.transaction.Transactions.windows(Transactions.java:51)
+<tr><td>INFO: scripts.Search:46: Unable to navigate to Another Jhol<br><pre>java.lang.AssertionError
+	at managers.DriverUtil.assertTitle(DriverUtil.java:90)
+	at scripts.Search.clickFirstResult(Search.java:46)
+	at scripts.transaction.Transactions.Google(Transactions.java:45)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -66,6 +38,6 @@ Session ID: AwesomeSession
 	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 </pre></br></td></tr>
-<tr><td><a href='../src/test/resources/Results/Screenshot/2019-06-11 21-28-04.039/4/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-11 21-28-04.039/4/1.png' height='100' width='100'/> </a></td></tr>
-<tr><td>FAIL: scripts.Windows:23: Failed to process Notepad</td></tr>
+<tr><td><a href='../src/test/resources/Results/Screenshot/2019-06-28 00-50-55.202/3/1.png'> <img src='../src/test/resources/Results/Screenshot/2019-06-28 00-50-55.202/3/1.png' height='100' width='100'/> </a></td></tr>
+<tr><td>FAIL: scripts.Search:50: Unable to open first search result</td></tr>
 </table>
